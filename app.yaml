@@ -1,4 +1,4 @@
-DEBUG: false
+DEBUG: true
 ALLOWED_HOSTS:
   - '*'
 DATABASES.default.NAME: postgres

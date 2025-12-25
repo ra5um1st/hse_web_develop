@@ -1,13 +1,20 @@
 
 # Запуск
 
+## Docker Compose
+
+Только БД:
+```powershell
+docker compose --profile db up -d
+```
+
 ## Windows
 
 ```powershell
 python -m venv .venv
 ```
 ```powershell
-./.venv/Scripts/activate.bat
+./.venv/Scripts/Activate.bat
 ```
 ```powershell
 pip install -r requirements.txt
