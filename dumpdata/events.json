@@ -1,0 +1,44 @@
+[
+{
+    "model": "events.event",
+    "pk": 17,
+    "fields": {
+        "user_id": 1,
+        "location": "SRID=4326;POINT (0.9952798593447562 0.566083324695739)",
+        "created": "2025-12-26T03:48:14Z",
+        "updated": null,
+        "title": "Спортивный матч",
+        "content": "Футбольный матч Зенит - ЦСКА",
+        "media_type": null,
+        "media_url": null
+    }
+},
+{
+    "model": "events.event",
+    "pk": 18,
+    "fields": {
+        "user_id": 1,
+        "location": "SRID=4326;POINT (10.71929307262112 -0.2684937156533687)",
+        "created": "2025-12-26T03:49:31Z",
+        "updated": null,
+        "title": "Собрание акционеров",
+        "content": "Обсуждение текущего плана развития компании",
+        "media_type": null,
+        "media_url": null
+    }
+},
+{
+    "model": "events.event",
+    "pk": 19,
+    "fields": {
+        "user_id": 1,
+        "location": "SRID=4326;POINT (0.0399627769365907 0.0547943052665304)",
+        "created": "2025-12-26T03:49:31Z",
+        "updated": null,
+        "title": "Городское мероприятие",
+        "content": "Празднование дня защитника отечества",
+        "media_type": null,
+        "media_url": null
+    }
+}
+]

@@ -13,8 +13,8 @@ services:
       - app
       - db
     image: postgis/postgis:18-3.6-alpine
-    # volumes:
-    #   - ./volumes/postgres:/var/lib/postgresql/18/docker
+    volumes:
+      - ./.pgdata:/var/lib/postgresql/18/docker
     ports:
       - 5432:5432
     environment:

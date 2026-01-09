@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+
+
+<h1 class="md-typescale-display-medium">Hello Material!</h1>
+<div class="map" id="map"></div>
+<div>
+  <md-list>
+  {% for event in events %}
+    <md-list-item type="button">
+      <img slot="start" src="{% static 'images/test.png' %}">
+      <div slot="headline">{{ event.title }}</div>
+      <div slot="supporting-text">{{ event.content }}</div>
+    </md-list-item>
+  {% endfor %}
+  </md-list>
+</div>
+
+<style>
+  .map {
+    width: auto;
+    height: 500px;
+    background-color: black;
+  }
+</style>
+
+<script>
+    var map = new maplibregl.Map({
+        container: 'map', // container id
+        style: {
+          "version": 8,
+          "sources": {
+              "osm": {
+                  "type": "raster",
+                  "tiles": ["https://a.tile.openstreetmap.org/{z}/{x}/{y}.png"],
+                  "tileSize": 256,
+                  "attribution": "&copy; OpenStreetMap Contributors",
+                  "maxzoom": 19
+              }
+          },
+          "layers": [{
+              "id": "osm",
+              "type": "raster",
+              "source": "osm"
+          }]
+        },
+        center: [43.9, 56.3], // starting position [lng, lat]
+        zoom: 10 // starting zoom
+    });
+
+    var events = [
+    {% for event in events %} [{{ event.location.y }}, {{ event.location.x }}],
+    {% endfor %}]
+
+    for (var i = 0; i < events.length; i++) {
+      new maplibregl.Marker({
+          color: "#000000"
+        })
+        .setLngLat(events[i])
+        .addTo(map)
+    }
+</script>
+
+{% endblock body %}

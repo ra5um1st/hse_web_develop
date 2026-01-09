@@ -1,0 +1,42 @@
+[
+{
+    "model": "events.event_tag",
+    "pk": 1,
+    "fields": {
+        "event_id": 18,
+        "tag_id": 3
+    }
+},
+{
+    "model": "events.event_tag",
+    "pk": 2,
+    "fields": {
+        "event_id": 19,
+        "tag_id": 2
+    }
+},
+{
+    "model": "events.event_tag",
+    "pk": 3,
+    "fields": {
+        "event_id": 17,
+        "tag_id": 1
+    }
+},
+{
+    "model": "events.event_tag",
+    "pk": 4,
+    "fields": {
+        "event_id": 19,
+        "tag_id": 4
+    }
+},
+{
+    "model": "events.event_tag",
+    "pk": 5,
+    "fields": {
+        "event_id": 17,
+        "tag_id": 4
+    }
+}
+]
