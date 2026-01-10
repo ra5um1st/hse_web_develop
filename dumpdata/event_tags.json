@@ -1,42 +1,450 @@
 [
-{
-    "model": "events.event_tag",
-    "pk": 1,
-    "fields": {
-        "event_id": 18,
-        "tag_id": 3
+    {
+        "model": "events.event_tag",
+        "pk": 1,
+        "fields": {
+            "event_id": 1,
+            "tag_id": 4
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 2,
+        "fields": {
+            "event_id": 1,
+            "tag_id": 5
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 3,
+        "fields": {
+            "event_id": 2,
+            "tag_id": 5
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 4,
+        "fields": {
+            "event_id": 2,
+            "tag_id": 8
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 5,
+        "fields": {
+            "event_id": 3,
+            "tag_id": 6
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 6,
+        "fields": {
+            "event_id": 3,
+            "tag_id": 10
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 7,
+        "fields": {
+            "event_id": 4,
+            "tag_id": 1
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 8,
+        "fields": {
+            "event_id": 4,
+            "tag_id": 4
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 9,
+        "fields": {
+            "event_id": 5,
+            "tag_id": 4
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 10,
+        "fields": {
+            "event_id": 5,
+            "tag_id": 5
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 11,
+        "fields": {
+            "event_id": 6,
+            "tag_id": 1
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 12,
+        "fields": {
+            "event_id": 6,
+            "tag_id": 4
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 13,
+        "fields": {
+            "event_id": 7,
+            "tag_id": 2
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 14,
+        "fields": {
+            "event_id": 7,
+            "tag_id": 4
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 15,
+        "fields": {
+            "event_id": 8,
+            "tag_id": 2
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 16,
+        "fields": {
+            "event_id": 8,
+            "tag_id": 5
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 17,
+        "fields": {
+            "event_id": 9,
+            "tag_id": 4
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 18,
+        "fields": {
+            "event_id": 9,
+            "tag_id": 5
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 19,
+        "fields": {
+            "event_id": 10,
+            "tag_id": 9
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 20,
+        "fields": {
+            "event_id": 10,
+            "tag_id": 3
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 21,
+        "fields": {
+            "event_id": 11,
+            "tag_id": 6
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 22,
+        "fields": {
+            "event_id": 11,
+            "tag_id": 2
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 23,
+        "fields": {
+            "event_id": 12,
+            "tag_id": 5
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 24,
+        "fields": {
+            "event_id": 12,
+            "tag_id": 8
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 25,
+        "fields": {
+            "event_id": 13,
+            "tag_id": 1
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 26,
+        "fields": {
+            "event_id": 13,
+            "tag_id": 4
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 27,
+        "fields": {
+            "event_id": 14,
+            "tag_id": 8
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 28,
+        "fields": {
+            "event_id": 14,
+            "tag_id": 9
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 29,
+        "fields": {
+            "event_id": 15,
+            "tag_id": 5
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 30,
+        "fields": {
+            "event_id": 15,
+            "tag_id": 8
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 31,
+        "fields": {
+            "event_id": 16,
+            "tag_id": 6
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 32,
+        "fields": {
+            "event_id": 16,
+            "tag_id": 4
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 33,
+        "fields": {
+            "event_id": 17,
+            "tag_id": 1
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 34,
+        "fields": {
+            "event_id": 17,
+            "tag_id": 4
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 35,
+        "fields": {
+            "event_id": 18,
+            "tag_id": 5
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 36,
+        "fields": {
+            "event_id": 18,
+            "tag_id": 8
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 37,
+        "fields": {
+            "event_id": 19,
+            "tag_id": 7
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 38,
+        "fields": {
+            "event_id": 19,
+            "tag_id": 4
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 39,
+        "fields": {
+            "event_id": 20,
+            "tag_id": 2
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 40,
+        "fields": {
+            "event_id": 20,
+            "tag_id": 9
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 41,
+        "fields": {
+            "event_id": 21,
+            "tag_id": 10
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 42,
+        "fields": {
+            "event_id": 21,
+            "tag_id": 2
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 43,
+        "fields": {
+            "event_id": 22,
+            "tag_id": 7
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 44,
+        "fields": {
+            "event_id": 22,
+            "tag_id": 4
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 45,
+        "fields": {
+            "event_id": 23,
+            "tag_id": 8
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 46,
+        "fields": {
+            "event_id": 23,
+            "tag_id": 4
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 47,
+        "fields": {
+            "event_id": 24,
+            "tag_id": 3
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 48,
+        "fields": {
+            "event_id": 24,
+            "tag_id": 4
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 49,
+        "fields": {
+            "event_id": 25,
+            "tag_id": 1
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 50,
+        "fields": {
+            "event_id": 25,
+            "tag_id": 4
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 51,
+        "fields": {
+            "event_id": 26,
+            "tag_id": 1
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 52,
+        "fields": {
+            "event_id": 26,
+            "tag_id": 4
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 53,
+        "fields": {
+            "event_id": 27,
+            "tag_id": 3
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 54,
+        "fields": {
+            "event_id": 27,
+            "tag_id": 4
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 55,
+        "fields": {
+            "event_id": 28,
+            "tag_id": 2
+        }
+    },
+    {
+        "model": "events.event_tag",
+        "pk": 56,
+        "fields": {
+            "event_id": 28,
+            "tag_id": 4
+        }
     }
-},
-{
-    "model": "events.event_tag",
-    "pk": 2,
-    "fields": {
-        "event_id": 19,
-        "tag_id": 2
-    }
-},
-{
-    "model": "events.event_tag",
-    "pk": 3,
-    "fields": {
-        "event_id": 17,
-        "tag_id": 1
-    }
-},
-{
-    "model": "events.event_tag",
-    "pk": 4,
-    "fields": {
-        "event_id": 19,
-        "tag_id": 4
-    }
-},
-{
-    "model": "events.event_tag",
-    "pk": 5,
-    "fields": {
-        "event_id": 17,
-        "tag_id": 4
-    }
-}
 ]

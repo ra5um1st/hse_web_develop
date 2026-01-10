@@ -5,6 +5,13 @@ import json
 from django.forms.models import model_to_dict
 
 # Create your models here.
+class Tag(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    name = models.CharField(max_length=127)
+    
+    def __str__(self):
+        return json.dumps(model_to_dict(self), indent=4, ensure_ascii=False)
+
 class Event(models.Model):
     id = models.BigAutoField(primary_key=True)
     user_id = models.ForeignKey(get_user_model(), on_delete=models.SET_DEFAULT, default=None)
@@ -16,15 +23,10 @@ class Event(models.Model):
     media_type = models.CharField(max_length=15, blank=True, null=True)
     media_url = models.CharField(max_length=2047, blank=True, null=True)
     
-    def __str__(self):
-        return json.dumps(self.title, indent=4, ensure_ascii=False)
-
-class Tag(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    name = models.CharField(max_length=127)
+    tags = models.ManyToManyField(Tag, through='Event_Tag')
     
     def __str__(self):
-        return json.dumps(model_to_dict(self), indent=4, ensure_ascii=False)
+        return json.dumps(self.title, indent=4, ensure_ascii=False)
 
 class Event_Tag(models.Model):
     id = models.BigAutoField(primary_key=True)

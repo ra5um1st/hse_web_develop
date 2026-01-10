@@ -1,30 +1,72 @@
 [
-{
-    "model": "events.tag",
-    "pk": 1,
-    "fields": {
-        "name": "Спорт"
+    {
+        "model": "events.tag",
+        "pk": 1,
+        "fields": {
+            "name": "Спорт"
+        }
+    },
+    {
+        "model": "events.tag",
+        "pk": 2,
+        "fields": {
+            "name": "Праздник"
+        }
+    },
+    {
+        "model": "events.tag",
+        "pk": 3,
+        "fields": {
+            "name": "Бизнес"
+        }
+    },
+    {
+        "model": "events.tag",
+        "pk": 4,
+        "fields": {
+            "name": "Популярное"
+        }
+    },
+    {
+        "model": "events.tag",
+        "pk": 5,
+        "fields": {
+            "name": "Искусство"
+        }
+    },
+    {
+        "model": "events.tag",
+        "pk": 6,
+        "fields": {
+            "name": "Еда"
+        }
+    },
+    {
+        "model": "events.tag",
+        "pk": 7,
+        "fields": {
+            "name": "Технология"
+        }
+    },
+    {
+        "model": "events.tag",
+        "pk": 8,
+        "fields": {
+            "name": "Образование"
+        }
+    },
+    {
+        "model": "events.tag",
+        "pk": 9,
+        "fields": {
+            "name": "Экология"
+        }
+    },
+    {
+        "model": "events.tag",
+        "pk": 10,
+        "fields": {
+            "name": "Путешествия"
+        }
     }
-},
-{
-    "model": "events.tag",
-    "pk": 2,
-    "fields": {
-        "name": "Праздник"
-    }
-},
-{
-    "model": "events.tag",
-    "pk": 3,
-    "fields": {
-        "name": "Бизнес"
-    }
-},
-{
-    "model": "events.tag",
-    "pk": 4,
-    "fields": {
-        "name": "Популярное"
-    }
-}
 ]

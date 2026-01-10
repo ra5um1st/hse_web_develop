@@ -1,11 +1,361 @@
 [
+    {
+        "model": "events.event",
+        "pk": 1,
+        "fields": {
+            "user_id": 1,
+            "location": "SRID=4326;POINT (-73.985434 40.748817)",
+            "created": "2025-01-15T18:30:00Z",
+            "updated": null,
+            "title": "Концерт классической музыки",
+            "content": "Симфонический оркестр исполняет произведения Чайковского.",
+            "media_type": null,
+            "media_url": null
+        }
+    },
+    {
+        "model": "events.event",
+        "pk": 2,
+        "fields": {
+            "user_id": 1,
+            "location": "SRID=4326;POINT (2.352222 48.856614)",
+            "created": "2025-03-21T14:00:00Z",
+            "updated": null,
+            "title": "Выставка современного искусства",
+            "content": "Открытие выставки молодых художников в центре Парижа.",
+            "media_type": null,
+            "media_url": null
+        }
+    },
+    {
+        "model": "events.event",
+        "pk": 3,
+        "fields": {
+            "user_id": 1,
+            "location": "SRID=4326;POINT (139.691711 35.689487)",
+            "created": "2025-05-12T10:00:00Z",
+            "updated": null,
+            "title": "Международный фестиваль еды",
+            "content": "Проведение фестиваля японской кухни в Токио.",
+            "media_type": null,
+            "media_url": null
+        }
+    },
+    {
+        "model": "events.event",
+        "pk": 4,
+        "fields": {
+            "user_id": 1,
+            "location": "SRID=4326;POINT (-0.127758 51.507351)",
+            "created": "2025-06-28T16:30:00Z",
+            "updated": null,
+            "title": "Маршрут велосипедистов",
+            "content": "Ежегодный велозаезд по улицам Лондона.",
+            "media_type": null,
+            "media_url": null
+        }
+    },
+    {
+        "model": "events.event",
+        "pk": 5,
+        "fields": {
+            "user_id": 1,
+            "location": "SRID=4326;POINT (-118.243683 34.052235)",
+            "created": "2025-07-18T20:00:00Z",
+            "updated": null,
+            "title": "Открытый кинопоказ",
+            "content": "Показ культовых фильмов под открытым небом в Лос-Анджелесе.",
+            "media_type": null,
+            "media_url": null
+        }
+    },
+    {
+        "model": "events.event",
+        "pk": 6,
+        "fields": {
+            "user_id": 1,
+            "location": "SRID=4326;POINT (151.209296 -33.868819)",
+            "created": "2025-08-05T11:00:00Z",
+            "updated": null,
+            "title": "Морская регата",
+            "content": "Регата парусников в Сиднее.",
+            "media_type": null,
+            "media_url": null
+        }
+    },
+    {
+        "model": "events.event",
+        "pk": 7,
+        "fields": {
+            "user_id": 1,
+            "location": "SRID=4326;POINT (103.819836 1.283188)",
+            "created": "2025-09-23T13:00:00Z",
+            "updated": null,
+            "title": "Национальный праздник Сингапура",
+            "content": "Парад и фейерверк в честь Дня Независимости.",
+            "media_type": null,
+            "media_url": null
+        }
+    },
+    {
+        "model": "events.event",
+        "pk": 8,
+        "fields": {
+            "user_id": 1,
+            "location": "SRID=4326;POINT (-46.633309 -23.550519)",
+            "created": "2025-10-14T17:30:00Z",
+            "updated": null,
+            "title": "Карнавал в Сан-Паулу",
+            "content": "Яркий карнавал с традиционными бразильскими танцами.",
+            "media_type": null,
+            "media_url": null
+        }
+    },
+    {
+        "model": "events.event",
+        "pk": 9,
+        "fields": {
+            "user_id": 1,
+            "location": "SRID=4326;POINT (144.963058 -37.813628)",
+            "created": "2025-11-03T12:00:00Z",
+            "updated": null,
+            "title": "Музыкальный фестиваль",
+            "content": "Большой музыкальный фестиваль в Мельбурне.",
+            "media_type": null,
+            "media_url": null
+        }
+    },
+    {
+        "model": "events.event",
+        "pk": 10,
+        "fields": {
+            "user_id": 1,
+            "location": "SRID=4326;POINT (-77.036871 38.907192)",
+            "created": "2025-12-10T19:00:00Z",
+            "updated": null,
+            "title": "Политический митинг",
+            "content": "Демонстрация сторонников экологического движения в Вашингтоне.",
+            "media_type": null,
+            "media_url": null
+        }
+    },
+    {
+        "model": "events.event",
+        "pk": 11,
+        "fields": {
+            "user_id": 1,
+            "location": "SRID=4326;POINT (37.617635 55.755826)",
+            "created": "2025-02-22T15:00:00Z",
+            "updated": null,
+            "title": "Фестиваль уличной еды",
+            "content": "Праздник национальной русской кухни в Москве.",
+            "media_type": null,
+            "media_url": null
+        }
+    },
+    {
+        "model": "events.event",
+        "pk": 12,
+        "fields": {
+            "user_id": 1,
+            "location": "SRID=4326;POINT (126.977969 37.566535)",
+            "created": "2025-04-17T10:30:00Z",
+            "updated": null,
+            "title": "Международный кинофестиваль",
+            "content": "Фестиваль азиатского кино в Сеуле.",
+            "media_type": null,
+            "media_url": null
+        }
+    },
+    {
+        "model": "events.event",
+        "pk": 13,
+        "fields": {
+            "user_id": 1,
+            "location": "SRID=4326;POINT (-87.629798 41.878114)",
+            "created": "2025-06-08T19:00:00Z",
+            "updated": null,
+            "title": "Турнир по баскетболу",
+            "content": "Матч NBA Bulls против Lakers в Чикаго.",
+            "media_type": null,
+            "media_url": null
+        }
+    },
+    {
+        "model": "events.event",
+        "pk": 14,
+        "fields": {
+            "user_id": 1,
+            "location": "SRID=4326;POINT (13.404954 52.520007)",
+            "created": "2025-07-25T11:30:00Z",
+            "updated": null,
+            "title": "Научная конференция",
+            "content": "Встреча ученых на тему экологии и устойчивого развития в Берлине.",
+            "media_type": null,
+            "media_url": null
+        }
+    },
+    {
+        "model": "events.event",
+        "pk": 15,
+        "fields": {
+            "user_id": 1,
+            "location": "SRID=4326;POINT (-122.419416 37.774929)",
+            "created": "2025-08-19T18:00:00Z",
+            "updated": null,
+            "title": "Культурный фестиваль",
+            "content": "Фестиваль искусств и культуры разных народов мира в Сан-Франциско.",
+            "media_type": null,
+            "media_url": null
+        }
+    },
+    {
+        "model": "events.event",
+        "pk": 16,
+        "fields": {
+            "user_id": 1,
+            "location": "SRID=4326;POINT (114.177216 22.319304)",
+            "created": "2025-09-30T15:00:00Z",
+            "updated": null,
+            "title": "Гастрономическое шоу",
+            "content": "Шоу поваров из разных стран Азии в Гонконге.",
+            "media_type": null,
+            "media_url": null
+        }
+    },
+    {
+        "model": "events.event",
+        "pk": 17,
+        "fields": {
+            "user_id": 1,
+            "location": "SRID=4326;POINT (-3.703790 40.416775)",
+            "created": "2025-10-29T17:00:00Z",
+            "updated": null,
+            "title": "Футбольный турнир",
+            "content": "Матч Real Madrid против Barcelona в Мадриде.",
+            "media_type": null,
+            "media_url": null
+        }
+    },
+    {
+        "model": "events.event",
+        "pk": 18,
+        "fields": {
+            "user_id": 1,
+            "location": "SRID=4326;POINT (135.771154 35.021939)",
+            "created": "2025-11-15T13:30:00Z",
+            "updated": null,
+            "title": "Фестиваль анимации",
+            "content": "Крупнейший аниме-фестиваль в Киото.",
+            "media_type": null,
+            "media_url": null
+        }
+    },
+    {
+        "model": "events.event",
+        "pk": 19,
+        "fields": {
+            "user_id": 1,
+            "location": "SRID=4326;POINT (-84.387982 33.748995)",
+            "created": "2025-12-01T14:00:00Z",
+            "updated": null,
+            "title": "Технологический саммит",
+            "content": "Саммит инновационных технологий в Атланте.",
+            "media_type": null,
+            "media_url": null
+        }
+    },
+    {
+        "model": "events.event",
+        "pk": 20,
+        "fields": {
+            "user_id": 1,
+            "location": "SRID=4326;POINT (116.397128 39.904198)",
+            "created": "2025-01-05T16:00:00Z",
+            "updated": null,
+            "title": "Китайский Новый Год",
+            "content": "Торжественное празднование китайского Нового Года в Пекине.",
+            "media_type": null,
+            "media_url": null
+        }
+    },
+    {
+        "model": "events.event",
+        "pk": 21,
+        "fields": {
+            "user_id": 1,
+            "location": "SRID=4326;POINT (-118.243683 34.052235)",
+            "created": "2025-02-28T21:00:00Z",
+            "updated": null,
+            "title": "Хэллоуинская вечеринка",
+            "content": "Ночная тематическая вечеринка в Лос-Анджелесе.",
+            "media_type": null,
+            "media_url": null
+        }
+    },
+    {
+        "model": "events.event",
+        "pk": 22,
+        "fields": {
+            "user_id": 1,
+            "location": "SRID=4326;POINT (139.691711 35.689487)",
+            "created": "2025-03-10T12:00:00Z",
+            "updated": null,
+            "title": "Чемпионат по робототехнике",
+            "content": "Соревнования роботов в Токио.",
+            "media_type": null,
+            "media_url": null
+        }
+    },
+    {
+        "model": "events.event",
+        "pk": 23,
+        "fields": {
+            "user_id": 1,
+            "location": "SRID=4326;POINT (-0.127758 51.507351)",
+            "created": "2025-04-25T16:30:00Z",
+            "updated": null,
+            "title": "Литературная премия",
+            "content": "Награждение лауреатов литературной премии Букера в Лондоне.",
+            "media_type": null,
+            "media_url": null
+        }
+    },
+    {
+        "model": "events.event",
+        "pk": 24,
+        "fields": {
+            "user_id": 1,
+            "location": "SRID=4326;POINT (103.819836 1.283188)",
+            "created": "2025-05-20T11:00:00Z",
+            "updated": null,
+            "title": "Бизнес-конференция",
+            "content": "Совещание лидеров бизнеса Юго-Восточной Азии в Сингапуре.",
+            "media_type": null,
+            "media_url": null
+        }
+    },
+    {
+        "model": "events.event",
+        "pk": 25,
+        "fields": {
+            "user_id": 1,
+            "location": "SRID=4326;POINT (-46.633309 -23.550519)",
+            "created": "2025-06-15T14:30:00Z",
+            "updated": null,
+            "title": "Благотворительный марафон",
+            "content": "Забег на благотворительность в Сан-Паулу.",
+            "media_type": null,
+            "media_url": null
+        }
+    },
 {
     "model": "events.event",
-    "pk": 17,
+    "pk": 26,
     "fields": {
         "user_id": 1,
-        "location": "SRID=4326;POINT (0.9952798593447562 0.566083324695739)",
-        "created": "2025-12-26T03:48:14Z",
+        "location": "SRID=4326;POINT (43.92546781999087 56.32976780415267)",
+        "created": "2025-12-01T03:48:14Z",
         "updated": null,
         "title": "Спортивный матч",
         "content": "Футбольный матч Зенит - ЦСКА",
@@ -15,11 +365,11 @@
 },
 {
     "model": "events.event",
-    "pk": 18,
+    "pk": 27,
     "fields": {
         "user_id": 1,
-        "location": "SRID=4326;POINT (10.71929307262112 -0.2684937156533687)",
-        "created": "2025-12-26T03:49:31Z",
+        "location": "SRID=4326;POINT (43.86255067052967 56.3509850700718)",
+        "created": "2025-11-26T03:49:31Z",
         "updated": null,
         "title": "Собрание акционеров",
         "content": "Обсуждение текущего плана развития компании",
@@ -29,10 +379,10 @@
 },
 {
     "model": "events.event",
-    "pk": 19,
+    "pk": 28,
     "fields": {
         "user_id": 1,
-        "location": "SRID=4326;POINT (0.0399627769365907 0.0547943052665304)",
+        "location": "SRID=4326;POINT (43.99946317476773 56.3153942553999)",
         "created": "2025-12-26T03:49:31Z",
         "updated": null,
         "title": "Городское мероприятие",

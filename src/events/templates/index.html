@@ -3,17 +3,46 @@
 
 {% block body %}
 
-
-
 <h1 class="md-typescale-display-medium">Hello Material!</h1>
 <div class="map" id="map"></div>
 <div>
-  <md-list>
+  <!-- Выбор поля для сортировки -->
+  {% csrf_token %}
+  <md-filled-select quick label="Сортировка" name="order-field">
+    <md-select-option selected></md-select-option>
+    {% for event_field in event_fields %}
+    <md-select-option value="{{ event_field.id }}">
+      <div slot="headline">{{ event_field.name }}</div>
+    </md-select-option>
+    {% endfor %}
+  </md-filled-select>
+
+  <!-- Тип сортировки -->
+  <md-filled-select quick label="Тип сортировки" name="order-type">
+    <md-select-option selected></md-select-option>
+    <md-select-option value="asc">По возрастанию</md-select-option>
+    <md-select-option value="desc">По убыванию</md-select-option>
+  </md-filled-select>
+
+  <!-- Индикатор загрузки -->
+  <span id="loading-icon" style="display:none;">⏳ Загрузка...</span>
+
+  <md-list id="event-list">
   {% for event in events %}
     <md-list-item type="button">
       <img slot="start" src="{% static 'images/test.png' %}">
       <div slot="headline">{{ event.title }}</div>
-      <div slot="supporting-text">{{ event.content }}</div>
+      <div slot="supporting-text">
+        <div>{{ event.content }}</div>
+        <div>
+          <div>{{ event.created | date:"d E Y г. в H:i" }}</div>
+        </div>
+        <md-chip-set style="margin: 8px 0px 0px 0px;">
+        {% for tag in event.tags.all %}
+          <md-suggestion-chip label="{{ tag.name }}"></md-suggestion-chip>
+        {% endfor %}
+        </md-chip-set>
+      </div>
     </md-list-item>
   {% endfor %}
   </md-list>
@@ -28,40 +57,131 @@
 </style>
 
 <script>
-    var map = new maplibregl.Map({
-        container: 'map', // container id
-        style: {
-          "version": 8,
-          "sources": {
-              "osm": {
-                  "type": "raster",
-                  "tiles": ["https://a.tile.openstreetmap.org/{z}/{x}/{y}.png"],
-                  "tileSize": 256,
-                  "attribution": "&copy; OpenStreetMap Contributors",
-                  "maxzoom": 19
+  var map = new maplibregl.Map({
+      container: 'map',
+      style: {
+          version: 8,
+          sources: {
+              osm: {
+                  type: 'raster',
+                  tiles: ['https://a.tile.openstreetmap.org/{z}/{x}/{y}.png'],
+                  tileSize: 256,
+                  attribution: '© OpenStreetMap Contributors',
+                  maxzoom: 19
+              },
+              geojsonSource: {
+                  type: 'geojson',
+                  data: {
+                      type: 'FeatureCollection',
+                      features: []
+                  },
+                  cluster: true,
+                  clusterMaxZoom: 14,
+                  clusterRadius: 50
               }
           },
-          "layers": [{
-              "id": "osm",
-              "type": "raster",
-              "source": "osm"
-          }]
+          layers: [
+              {
+                  id: 'osm',
+                  type: 'raster',
+                  source: 'osm'
+              },
+              {
+                  id: 'clusters',
+                  type: 'circle',
+                  source: 'geojsonSource',
+                  filter: ['has', 'point_count'],
+                  paint: {
+                      'circle-color': '#FFC61E',
+                      'circle-radius': [
+                          'step',
+                          ['get', 'point_count'],
+                          20,
+                          100,
+                          30
+                      ]
+                  }
+              },
+              {
+                  id: 'cluster-count',
+                  type: 'symbol',
+                  source: 'geojsonSource',
+                  filter: ['has', 'point_count'],
+                  layout: {
+                      'text-field': '{point_count_abbreviated}',
+                      'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+                      'text-size': 12
+                  }
+              },
+              {
+                  id: 'unclustered-point',
+                  type: 'circle',
+                  source: 'geojsonSource',
+                  filter: ['!', ['has', 'point_count']],
+                  paint: {
+                      'circle-color': '#000000',
+                      'circle-radius': 6,
+                      'circle-stroke-width': 1,
+                      'circle-stroke-color': '#ffffff'
+                  }
+              },
+              {
+                  id: 'labels-for-unclustered-point',
+                  type: 'symbol',
+                  source: 'geojsonSource',
+                  filter: ['!', ['has', 'point_count']],
+                  layout: {
+                      'text-field': ['get', 'name'], // Здесь выводится название объекта (если оно есть)
+                      'text-font': ['Open Sans Regular', 'Arial Unicode MS Regular'],
+                      'text-offset': [0, 0.5],           // Смещение относительно точки вверх
+                      'text-anchor': 'top',              // Центр привязки к верхнему краю кружка
+                      'text-size': 12
+                  },
+                  paint: {
+                    'text-color': '#000000', // Set the text color
+                    'text-halo-color': '#FFFFFF', // Add a white halo for visibility
+                    'text-halo-width': 1
+                  }
+              }
+          ]
+      },
+      center: [43.9, 56.3],
+      zoom: 10
+  });
+
+  var events = [
+  {% for event in events %}
+      {
+        "geometry": {
+          "coordinates": [{{ event.location.x }}, {{ event.location.y }}]
         },
-        center: [43.9, 56.3], // starting position [lng, lat]
-        zoom: 10 // starting zoom
-    });
+        "properties": {
+          "name": "{{ event.title }}"
+        }
+      },
+  {% endfor %}
+  ];
 
-    var events = [
-    {% for event in events %} [{{ event.location.y }}, {{ event.location.x }}],
-    {% endfor %}]
+  // Обработаем данные после полной загрузки карты
+  map.once('load', function() {
+      map.getSource('geojsonSource').setData({
+          type: 'FeatureCollection',
+          features: events.map(function(event) {
+              return {
+                  type: 'Feature',
+                  geometry: {
+                      type: 'Point',
+                      coordinates: event.geometry.coordinates
+                  },
+                  properties: {
+                    name: event.properties.name
+                  }
+              };
+          })
+      });
+  });
 
-    for (var i = 0; i < events.length; i++) {
-      new maplibregl.Marker({
-          color: "#000000"
-        })
-        .setLngLat(events[i])
-        .addTo(map)
-    }
+
 </script>
 
 {% endblock body %}

@@ -6,3 +6,6 @@ DATABASES.default.USER: postgres
 DATABASES.default.PASSWORD: postgres
 DATABASES.default.HOST: localhost
 DATABASES.default.PORT: 5432
+LANGUAGE_CODE: ru
+TIME_ZONE: Europe/Moscow
+USE_TZ: true
