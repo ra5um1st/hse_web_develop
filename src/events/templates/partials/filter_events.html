@@ -1,0 +1,99 @@
+{% load static %}
+{% load l10n %}
+
+<!-- Статистика -->
+<div id="event_stats" class="flex gap-2 mx-2" hx-swap-oob="true" >
+    <div class="stats shadow">
+        <div class="stat">
+            <div class="stat-title">Количество событий</div>
+            <div class="stat-value">{{ stats.events_count }}</div>
+        </div>
+    </div>
+
+    <div class="stats shadow">
+        <div class="stat">
+            <div class="stat-title">Популярные теги</div>
+            <div class="flex gap-1">
+                {% for popular_tag in stats.popular_tags %}
+                <div class="badge badge badge-primary badge-xl">
+                    <div>{{ popular_tag.name }}</div>
+                    <div class="stat-value text-2xl">{{ popular_tag.count }}</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Список пользователей -->
+<div id="event_list" class="flex w-full flex-col">
+    <script hx-trigger="load">
+        console.log('2');
+        {% for event in events %}
+        events.push({
+            "geometry": {
+            "coordinates": [{{ event.geolocation.x | unlocalize }}, {{ event.geolocation.y | unlocalize }}]
+            },
+            "properties": {
+            "id": {{ event.id }},
+            "name": "{{ event.title }}",
+            "content": "{{ event.content }}"
+            }
+        });
+        {% endfor %}
+
+        update_map();
+    </script>
+
+    {% for event in events %}
+    <div id="event_{{ event.id }}" class="card card-side bg-base-100 shadow-sm m-1">
+        <figure>
+            <img
+                src="{% static 'images/test.png' %}"
+                alt="Событие" />
+            </figure>
+        <div class="card-body">
+            <h2 class="card-title">{{ event.title }}</h2>
+            <p>{{ event.content }}</p>
+            <div>{{ event.created | date:"d E Y г. в H:i" }}</div>
+            <div>
+                {% for tag in event.tags.all %}
+                <div class="badge badge-secondary">{{ tag.name }}</div>
+                {% endfor %}
+            </div>
+            <div class="card-actions justify-end">
+                <button class="btn btn-primary"
+                        onclick="map.flyTo({
+                        center: [{{ event.geolocation.x | unlocalize }}, {{ event.geolocation.y | unlocalize }}],
+                        zoom: 12,
+                        duration: 2000
+                        })">Показать</button>
+            </div>
+        </div>
+
+        <div id="indicator" class="htmx-indicator card card-side bg-base-100 absolute gap-2 p-2 w-full h-full pointer-events-none z-1">
+            <div class="skeleton w-64"></div>
+            <div class="card-body h-full">
+                <div class="skeleton h-16 w-32"></div>
+                <div class="skeleton h-8 w-full"></div>
+                <div class="skeleton h-8 w-64"></div>
+                <div class="h-full"></div>
+                <div class="card-actions justify-end">
+                    <div class="skeleton h-8 w-24 "></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% empty %}
+    <div class="font-medium text-xl p-4 text-center">События не найдены</div>
+    {% endfor %}
+
+    {% if form.has_next %}
+    <div class="font-medium text-xl p-4 text-center"
+         hx-get="{% url 'index' %}?search_text={{ form.search_text }}&order_by={{ form.order_by }}&order_type={{ form.order_type }}&start_date={{ form.start_date }}&end_date={{ form.end_date }}&page={{ form.page }}&page_size={{ form.page_size }}"
+         hx-trigger="revealed"
+         hx-swap="outerHTML">Найдены события, загружаем...
+    </div>
+    {% endif %}
+</div>

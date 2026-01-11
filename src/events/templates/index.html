@@ -1,62 +1,179 @@
 {% extends "base.html" %}
 {% load static %}
+{% load l10n %}
 
 {% block body %}
 
-<h1 class="md-typescale-display-medium">Hello Material!</h1>
-<div class="map" id="map"></div>
-<div>
-  <!-- Выбор поля для сортировки -->
-  {% csrf_token %}
-  <md-filled-select quick label="Сортировка" name="order-field">
-    <md-select-option selected></md-select-option>
-    {% for event_field in event_fields %}
-    <md-select-option value="{{ event_field.id }}">
-      <div slot="headline">{{ event_field.name }}</div>
-    </md-select-option>
-    {% endfor %}
-  </md-filled-select>
+<div class="header bg-base-100 shadow-sm pb-2">
+  <div id="map" class="map"></div>
 
-  <!-- Тип сортировки -->
-  <md-filled-select quick label="Тип сортировки" name="order-type">
-    <md-select-option selected></md-select-option>
-    <md-select-option value="asc">По возрастанию</md-select-option>
-    <md-select-option value="desc">По убыванию</md-select-option>
-  </md-filled-select>
-
-  <!-- Индикатор загрузки -->
-  <span id="loading-icon" style="display:none;">⏳ Загрузка...</span>
-
-  <md-list id="event-list">
-  {% for event in events %}
-    <md-list-item type="button">
-      <img slot="start" src="{% static 'images/test.png' %}">
-      <div slot="headline">{{ event.title }}</div>
-      <div slot="supporting-text">
-        <div>{{ event.content }}</div>
-        <div>
-          <div>{{ event.created | date:"d E Y г. в H:i" }}</div>
+  <!-- Статистика -->
+  <details class="collapse bg-base-100 border-base-300 border">
+    <summary class="collapse-title font-semibold">Статистика</summary>
+    <div class="collapse-content text-sm">
+      <div id="event_stats" class="flex gap-2 mx-2">
+          <div class="stats shadow">
+            <div class="stat">
+              <div class="stat-title">Количество событий</div>
+              <div class="stat-value">{{ stats.events_count }}</div>
+            </div>
+          </div>
+          
+          <div class="stats shadow">
+            <div class="stat">
+              <div class="stat-title">Популярные теги</div>
+              <div class="flex gap-1">
+                {% for popular_tag in stats.popular_tags %}
+                <div class="badge badge badge-primary badge-xl">
+                  <div>{{ popular_tag.name }}</div>
+                  <div class="stat-value text-2xl">{{ popular_tag.count }}</div>
+                </div>
+                {% endfor %}
+              </div>
+          </div>
         </div>
-        <md-chip-set style="margin: 8px 0px 0px 0px;">
-        {% for tag in event.tags.all %}
-          <md-suggestion-chip label="{{ tag.name }}"></md-suggestion-chip>
-        {% endfor %}
-        </md-chip-set>
       </div>
-    </md-list-item>
-  {% endfor %}
-  </md-list>
+    </div>
+  </details>
+
+  <!-- Поиск, сортировка, фильтрация -->
+  <form class="flex w-full gap-2 mx-2" 
+        hx-get="{% url 'index' %}"
+        hx-trigger="change"
+        hx-target="#event_list"
+        hx-push-url="true"
+        hx-swap="outerHTML"
+        hx-indicator="#indicator"
+        hx-disabled-elt="button, select, input"
+        hx-on::before-request="events = [];">
+
+    <!-- Поиск -->
+    <label class="input absolute z-1 m-4 top-0">
+      <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <g
+          stroke-linejoin="round"
+          stroke-linecap="round"
+          stroke-width="2.5"
+          fill="none"
+          stroke="currentColor">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.3-4.3"></path>
+        </g>
+      </svg>
+      <input name="search_text" value="{{ form.search_text }}" type="search" class="grow" placeholder="Поиск" />
+    </label>
+
+    <!-- Выбор поля для сортировки -->
+    <fieldset class="fieldset">
+      <legend class="fieldset-legend">Сортировка</legend>
+      <select name="order_by" class="select">
+        <option disabled selected >Выберите</option>
+        {% for event_order_field in select_options.event_order_fields %}
+        <option value="{{ event_order_field.id }}" {% if form.order_by == select_options.event_order_field.id %} selected {% endif %}>{{ event_order_field.name }}</option>
+        {% endfor %}
+      </select>
+    </fieldset>
+
+    <!-- Тип сортировки -->
+    <fieldset class="fieldset">
+      <legend class="fieldset-legend">Тип сортировки</legend>
+      <select name="order_type" class="select">
+        <option disabled selected >Выберите</option>
+        <option value="asc" {% if form.order_type == "asc" %} selected {% endif %}>По возрастанию</option>
+        <option value="desc" {% if form.order_type == "desc" %} selected {% endif %}>По убыванию</option>
+      </select>
+    </fieldset>
+
+    <!-- Фильтрация по дате -->
+    <fieldset class="fieldset">
+      <legend class="fieldset-legend">Дата и время</legend>
+      <div class="join">
+        <input name="start_date" value="{{ form.start_date }}" type="datetime-local" class="input join-item" />
+        <input name="end_date" value="{{ form.end_date }}" type="datetime-local" class="input join-item" />
+      </div>
+    </fieldset>
+
+    <!-- Размер страницы -->
+    <fieldset class="fieldset">
+      <legend class="fieldset-legend">Размер страницы</legend>
+      <select name="page_size" class="select">
+        {% for page_size in select_options.page_sizes %}
+        <option value="{{ page_size }}" {% if form.page_size == page_size %} selected {% endif %}>{{ page_size }}</option>
+        {% endfor %}
+      </select>
+    </fieldset>
+  </form>
+</div>
+
+<!-- Список пользователей -->
+<div id="event_list" class="flex w-full flex-col">
+    {% for event in events %}
+    <div id="event_{{ event.id }}" class="card card-side bg-base-100 shadow-sm m-1">
+        <figure>
+            <img
+                src="{% static 'images/test.png' %}"
+                alt="Событие" />
+            </figure>
+        <div class="card-body">
+            <h2 class="card-title">{{ event.title }}</h2>
+            <p>{{ event.content }}</p>
+            <div>{{ event.created | date:"d E Y г. в H:i" }}</div>
+            <div>
+                {% for tag in event.tags.all %}
+                <div class="badge badge-secondary">{{ tag.name }}</div>
+                {% endfor %}
+            </div>
+            <div class="card-actions justify-end">
+                <button class="btn btn-primary"
+                        onclick="map.flyTo({
+                        center: [{{ event.geolocation.x | unlocalize }}, {{ event.geolocation.y | unlocalize }}],
+                        zoom: 12,
+                        duration: 2000
+                        })">Показать</button>
+            </div>
+        </div>
+
+        <div id="indicator" class="htmx-indicator card card-side bg-base-100 absolute gap-2 p-2 w-full h-full pointer-events-none z-1">
+            <div class="skeleton w-64"></div>
+            <div class="card-body h-full">
+                <div class="skeleton h-16 w-32"></div>
+                <div class="skeleton h-8 w-full"></div>
+                <div class="skeleton h-8 w-64"></div>
+                <div class="h-full"></div>
+                <div class="card-actions justify-end">
+                    <div class="skeleton h-8 w-24 "></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="font-medium text-xl p-4 text-center">События не найдены</div>
+    {% endfor %}
+
+    {% if form.has_next %}
+    <div class="font-medium text-xl p-4 text-center"
+         hx-get="{% url 'index' %}?search_text={{ form.search_text }}&order_by={{ form.order_by }}&order_type={{ form.order_type }}&start_date={{ form.start_date }}&end_date={{ form.end_date }}&page={{ form.page }}&page_size={{ form.page_size }}"
+         hx-trigger="revealed"
+         hx-swap="outerHTML">Найдены события, загружаем...
+    </div>
+    {% endif %}
 </div>
 
 <style>
+  .header {
+    position: sticky;
+    top: 0px;
+    z-index: 10;
+  }
+
   .map {
     width: auto;
-    height: 500px;
-    background-color: black;
+    height: 30vh;
   }
 </style>
 
 <script>
+
   var map = new maplibregl.Map({
       container: 'map',
       style: {
@@ -153,18 +270,19 @@
   {% for event in events %}
       {
         "geometry": {
-          "coordinates": [{{ event.location.x }}, {{ event.location.y }}]
+          "coordinates": [{{ event.geolocation.x | unlocalize }}, {{ event.geolocation.y | unlocalize }}]
         },
         "properties": {
-          "name": "{{ event.title }}"
+          "id": {{ event.id }},
+          "name": "{{ event.title }}",
+          "content": "{{ event.content }}"
         }
       },
   {% endfor %}
   ];
 
-  // Обработаем данные после полной загрузки карты
-  map.once('load', function() {
-      map.getSource('geojsonSource').setData({
+  function update_map() {
+    map.getSource('geojsonSource').setData({
           type: 'FeatureCollection',
           features: events.map(function(event) {
               return {
@@ -174,13 +292,57 @@
                       coordinates: event.geometry.coordinates
                   },
                   properties: {
-                    name: event.properties.name
+                    id: event.properties.id,
+                    name: event.properties.name,
+                    content: event.properties.content
                   }
               };
           })
       });
+  }
+
+  // Обработаем данные после полной загрузки карты
+  map.once('load', update_map);
+
+  // Change the cursor to a pointer when the mouse is over the places layer.
+  map.on('mouseenter', 'unclustered-point', () => {
+      map.getCanvas().style.cursor = 'pointer';
   });
 
+  // Change it back to a pointer when it leaves.
+  map.on('mouseleave', 'unclustered-point', () => {
+      map.getCanvas().style.cursor = '';
+  });
+
+  // Обработка нажатий на маркер
+  map.on('click', 'unclustered-point', (e) => {
+    const coordinates = e.features[0].geometry.coordinates.slice();
+    const id = e.features[0].properties.id;
+    const name = e.features[0].properties.name;
+    const content = e.features[0].properties.content;
+
+    // Ensure that if the map is zoomed out such that multiple
+    // copies of the feature are visible, the popup appears
+    // over the copy being pointed to.
+    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+    }
+
+    new maplibregl.Popup()
+        .setLngLat(coordinates)
+        .setHTML(content)
+        .addTo(map);
+
+    // Переместиться к событию в списке
+    element = document.getElementById("event_" + id);
+
+    if (element) {
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'end'
+      });
+    }
+  });
 
 </script>
 

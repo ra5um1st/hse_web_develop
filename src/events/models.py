@@ -15,7 +15,7 @@ class Tag(models.Model):
 class Event(models.Model):
     id = models.BigAutoField(primary_key=True)
     user_id = models.ForeignKey(get_user_model(), on_delete=models.SET_DEFAULT, default=None)
-    location = models.PointField(spatial_index=True)
+    geolocation = models.PointField(spatial_index=True)
     created = models.DateTimeField(default=datetime.now())
     updated = models.DateTimeField(blank=True, null=True)
     title = models.CharField(max_length=127)
