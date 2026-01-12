@@ -26,9 +26,8 @@
 </div>
 
 <!-- Список пользователей -->
-<div id="event_list" class="flex w-full flex-col">
+<div id="event_list" class="flex w-full flex-col gap-2 m-2">
     <script hx-trigger="load">
-        console.log('2');
         {% for event in events %}
         events.push({
             "geometry": {
@@ -47,9 +46,9 @@
 
     {% for event in events %}
     <div id="event_{{ event.id }}" class="card card-side bg-base-100 shadow-sm m-1">
-        <figure>
+        <figure class="w-1/3">
             <img
-                src="{% static 'images/test.png' %}"
+                src="{% if event.media_type == "image" and event.media_url %}{{ event.media_url }}{% else %}{% static 'images/test.png' %}{% endif %}"
                 alt="Событие" />
             </figure>
         <div class="card-body">
