@@ -39,14 +39,14 @@ def index(request):
     if search_text:
         words = search_text.split()
         q = Q(
-            Q(title__startswith=words[0]) |
-            Q(content__startswith=words[0])
+            Q(title__istartswith=words[0]) |
+            Q(content__istartswith=words[0])
         )
 
         for word in words[1:]:
             q |= Q(
-                Q(title__startswith=word) |
-                Q(content__startswith=word)
+                Q(title__istartswith=word) |
+                Q(content__istartswith=word)
             )
 
         events = events.filter(q)

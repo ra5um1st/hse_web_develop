@@ -39,12 +39,12 @@
   <!-- Поиск, сортировка, фильтрация -->
   <form class="flex w-full gap-2 mx-2" 
         hx-get="{% url 'index' %}"
-        hx-trigger="change"
+        hx-trigger="change, input changed delay:1s from:#search"
         hx-target="#event_list"
         hx-push-url="true"
         hx-swap="outerHTML"
         hx-indicator="#indicator"
-        hx-disabled-elt="button, select, input"
+        hx-disabled-elt="button, select, input:not(#search)"
         hx-on::before-request="events = [];">
 
     <!-- Поиск -->
@@ -60,7 +60,7 @@
           <path d="m21 21-4.3-4.3"></path>
         </g>
       </svg>
-      <input name="search_text" value="{{ form.search_text }}" type="search" class="grow" placeholder="Поиск" />
+      <input id="search" name="search_text" value="{{ form.search_text }}" type="search" class="grow" placeholder="Поиск" />
     </label>
 
     <!-- Выбор поля для сортировки -->
@@ -151,11 +151,7 @@
     {% endfor %}
 
     {% if form.has_next %}
-    <div class="font-medium text-xl p-4 text-center"
-         hx-get="{% url 'index' %}?search_text={{ form.search_text }}&order_by={{ form.order_by }}&order_type={{ form.order_type }}&start_date={{ form.start_date }}&end_date={{ form.end_date }}&page={{ form.page }}&page_size={{ form.page_size }}"
-         hx-trigger="revealed"
-         hx-swap="outerHTML">Найдены события, загружаем...
-    </div>
+    {% include "partials/next_page_load.html" %}
     {% endif %}
 </div>
 
