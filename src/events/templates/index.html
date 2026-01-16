@@ -4,23 +4,100 @@
 
 {% block body %}
 
-<div class="header bg-base-100 shadow-sm pb-2">
-  <div id="map" class="map"></div>
+<div class="md:flex">
+  <div class="flex flex-col sticky z-1 top-0 w-full h-full md:h-[100vh] bg-base-100 shadow-sm rounded-lg">
+    <!-- Карта -->
+    <div id="map" class="map h-[33vh] md:h-full"></div>
 
-  <!-- Статистика -->
-  <details class="collapse bg-base-100 border-base-300 border">
-    <summary class="collapse-title font-semibold">Статистика</summary>
-    <div class="collapse-content text-sm">
-      <div id="event_stats" class="flex gap-2 mx-2">
+    <!-- Поиск, сортировка, фильтрация -->
+    <form hx-get="{% url 'index' %}"
+          hx-trigger="change, input changed delay:1s from:#search"
+          hx-target="#event_list"
+          hx-push-url="true"
+          hx-swap="outerHTML"
+          hx-indicator="#indicator"
+          hx-disabled-elt="button, select, input:not(#search)"
+          hx-on::before-request="events = [];">
+      
+      <!-- Поиск -->
+      <label class="input input absolute z-1 m-4 top-0">
+        <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <g
+            stroke-linejoin="round"
+            stroke-linecap="round"
+            stroke-width="2.5"
+            fill="none"
+            stroke="currentColor">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.3-4.3"></path>
+          </g>
+        </svg>
+        <input id="search" name="search_text" value="{{ form.search_text }}" type="search" class="grow" placeholder="Поиск" />
+      </label>
+
+      <details class="collapse bg-base-100 border-base-300 border">
+        <summary class="collapse-title font-semibold px-4 py-2">Сортировка и фильтрация</summary>
+        <div class="collapse-content flex flex-wrap gap-x-2">
+          
+          <!-- Выбор поля для сортировки -->
+          <fieldset class="fieldset">
+            <legend class="fieldset-legend">Сортировка</legend>
+            <select name="order_by" class="select">
+              <option disabled selected >Выберите</option>
+              {% for event_order_field in select_options.event_order_fields %}
+              <option value="{{ event_order_field.id }}" {% if form.order_by == select_options.event_order_field.id %} selected {% endif %}>{{ event_order_field.name }}</option>
+              {% endfor %}
+            </select>
+          </fieldset>
+
+          <!-- Тип сортировки -->
+          <fieldset class="fieldset">
+            <legend class="fieldset-legend">Тип сортировки</legend>
+            <select name="order_type" class="select">
+              <option disabled selected >Выберите</option>
+              <option value="asc" {% if form.order_type == "asc" %} selected {% endif %}>По возрастанию</option>
+              <option value="desc" {% if form.order_type == "desc" %} selected {% endif %}>По убыванию</option>
+            </select>
+          </fieldset>
+
+          <!-- Фильтрация по дате -->
+          <fieldset class="fieldset">
+            <legend class="fieldset-legend">Дата и время</legend>
+            <div class="join">
+              <input name="start_date" value="{{ form.start_date }}" type="datetime-local" class="input join-item" />
+              <input name="end_date" value="{{ form.end_date }}" type="datetime-local" class="input join-item" />
+            </div>
+          </fieldset>
+
+          <!-- Размер страницы -->
+          <fieldset class="fieldset">
+            <legend class="fieldset-legend">Размер страницы</legend>
+            <select name="page_size" class="select">
+              {% for page_size in select_options.page_sizes %}
+              <option value="{{ page_size }}" {% if form.page_size == page_size %} selected {% endif %}>{{ page_size }}</option>
+              {% endfor %}
+            </select>
+          </fieldset>
+
+        </div>
+      </details>
+    </form>
+
+    <!-- Статистика -->
+
+    <details class="collapse bg-base-100 border-base-300 border">
+      <summary class="collapse-title font-semibold px-4 py-2">Статистика</summary>
+      <div class="collapse-content">
+        <div id="event_stats" class="flex gap-2 mx-2">
           <div class="stats shadow">
-            <div class="stat">
+            <div class="stat p-2">
               <div class="stat-title">Количество событий</div>
               <div class="stat-value">{{ stats.events_count }}</div>
             </div>
           </div>
-          
+            
           <div class="stats shadow">
-            <div class="stat">
+            <div class="stat p-2">
               <div class="stat-title">Популярные теги</div>
               <div class="flex gap-1">
                 {% for popular_tag in stats.popular_tags %}
@@ -30,143 +107,64 @@
                 </div>
                 {% endfor %}
               </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </details>
+    </details>
+  </div>
 
-  <!-- Поиск, сортировка, фильтрация -->
-  <form class="flex w-full gap-2 mx-2" 
-        hx-get="{% url 'index' %}"
-        hx-trigger="change, input changed delay:1s from:#search"
-        hx-target="#event_list"
-        hx-push-url="true"
-        hx-swap="outerHTML"
-        hx-indicator="#indicator"
-        hx-disabled-elt="button, select, input:not(#search)"
-        hx-on::before-request="events = [];">
+  <!-- Список пользователей -->
+  <div id="event_list" class="flex flex-col gap-2 m-2">
+      {% for event in events %}
+      <div id="event_{{ event.id }}" class="card card-side bg-base-100 shadow-sm">
+          <figure class="w-1/3">
+              <img
+                  src="{% if event.media_type == "image" and event.media_url %}{{ event.media_url }}{% else %}{% static 'images/test.png' %}{% endif %}"
+                  alt="Событие" />
+              </figure>
+          <div class="card-body">
+              <h2 class="card-title">{{ event.title }}</h2>
+              <p>{{ event.content }}</p>
+              <div>{{ event.created | date:"d E Y г. в H:i" }}</div>
+              <div>
+                  {% for tag in event.tags.all %}
+                  <div class="badge badge-secondary">{{ tag.name }}</div>
+                  {% endfor %}
+              </div>
+              <div class="card-actions justify-end">
+                  <button class="btn btn-primary"
+                          onclick="map.flyTo({
+                          center: [{{ event.geolocation.x | unlocalize }}, {{ event.geolocation.y | unlocalize }}],
+                          zoom: 12,
+                          duration: 2000
+                          })">Показать</button>
+              </div>
+          </div>
 
-    <!-- Поиск -->
-    <label class="input absolute z-1 m-4 top-0">
-      <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-        <g
-          stroke-linejoin="round"
-          stroke-linecap="round"
-          stroke-width="2.5"
-          fill="none"
-          stroke="currentColor">
-          <circle cx="11" cy="11" r="8"></circle>
-          <path d="m21 21-4.3-4.3"></path>
-        </g>
-      </svg>
-      <input id="search" name="search_text" value="{{ form.search_text }}" type="search" class="grow" placeholder="Поиск" />
-    </label>
-
-    <!-- Выбор поля для сортировки -->
-    <fieldset class="fieldset">
-      <legend class="fieldset-legend">Сортировка</legend>
-      <select name="order_by" class="select">
-        <option disabled selected >Выберите</option>
-        {% for event_order_field in select_options.event_order_fields %}
-        <option value="{{ event_order_field.id }}" {% if form.order_by == select_options.event_order_field.id %} selected {% endif %}>{{ event_order_field.name }}</option>
-        {% endfor %}
-      </select>
-    </fieldset>
-
-    <!-- Тип сортировки -->
-    <fieldset class="fieldset">
-      <legend class="fieldset-legend">Тип сортировки</legend>
-      <select name="order_type" class="select">
-        <option disabled selected >Выберите</option>
-        <option value="asc" {% if form.order_type == "asc" %} selected {% endif %}>По возрастанию</option>
-        <option value="desc" {% if form.order_type == "desc" %} selected {% endif %}>По убыванию</option>
-      </select>
-    </fieldset>
-
-    <!-- Фильтрация по дате -->
-    <fieldset class="fieldset">
-      <legend class="fieldset-legend">Дата и время</legend>
-      <div class="join">
-        <input name="start_date" value="{{ form.start_date }}" type="datetime-local" class="input join-item" />
-        <input name="end_date" value="{{ form.end_date }}" type="datetime-local" class="input join-item" />
+          <div id="indicator" class="htmx-indicator card card-side bg-base-100 absolute gap-2 p-2 w-full h-full pointer-events-none z-1">
+              <div class="skeleton w-64"></div>
+              <div class="card-body h-full">
+                  <div class="skeleton h-16 w-32"></div>
+                  <div class="skeleton h-8 w-full"></div>
+                  <div class="skeleton h-8 w-64"></div>
+                  <div class="h-full"></div>
+                  <div class="card-actions justify-end">
+                      <div class="skeleton h-8 w-24 "></div>
+                  </div>
+              </div>
+          </div>
       </div>
-    </fieldset>
+      {% empty %}
+      <div class="font-medium text-xl p-4 text-center">События не найдены</div>
+      {% endfor %}
 
-    <!-- Размер страницы -->
-    <fieldset class="fieldset">
-      <legend class="fieldset-legend">Размер страницы</legend>
-      <select name="page_size" class="select">
-        {% for page_size in select_options.page_sizes %}
-        <option value="{{ page_size }}" {% if form.page_size == page_size %} selected {% endif %}>{{ page_size }}</option>
-        {% endfor %}
-      </select>
-    </fieldset>
-  </form>
+      {% if form.has_next %}
+      {% include "partials/next_page_load.html" %}
+      {% endif %}
+  </div>
+
 </div>
-
-<!-- Список пользователей -->
-<div id="event_list" class="flex flex-col gap-2 m-2">
-    {% for event in events %}
-    <div id="event_{{ event.id }}" class="card card-side bg-base-100 shadow-sm">
-        <figure class="w-1/3">
-            <img
-                src="{% if event.media_type == "image" and event.media_url %}{{ event.media_url }}{% else %}{% static 'images/test.png' %}{% endif %}"
-                alt="Событие" />
-            </figure>
-        <div class="card-body">
-            <h2 class="card-title">{{ event.title }}</h2>
-            <p>{{ event.content }}</p>
-            <div>{{ event.created | date:"d E Y г. в H:i" }}</div>
-            <div>
-                {% for tag in event.tags.all %}
-                <div class="badge badge-secondary">{{ tag.name }}</div>
-                {% endfor %}
-            </div>
-            <div class="card-actions justify-end">
-                <button class="btn btn-primary"
-                        onclick="map.flyTo({
-                        center: [{{ event.geolocation.x | unlocalize }}, {{ event.geolocation.y | unlocalize }}],
-                        zoom: 12,
-                        duration: 2000
-                        })">Показать</button>
-            </div>
-        </div>
-
-        <div id="indicator" class="htmx-indicator card card-side bg-base-100 absolute gap-2 p-2 w-full h-full pointer-events-none z-1">
-            <div class="skeleton w-64"></div>
-            <div class="card-body h-full">
-                <div class="skeleton h-16 w-32"></div>
-                <div class="skeleton h-8 w-full"></div>
-                <div class="skeleton h-8 w-64"></div>
-                <div class="h-full"></div>
-                <div class="card-actions justify-end">
-                    <div class="skeleton h-8 w-24 "></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    {% empty %}
-    <div class="font-medium text-xl p-4 text-center">События не найдены</div>
-    {% endfor %}
-
-    {% if form.has_next %}
-    {% include "partials/next_page_load.html" %}
-    {% endif %}
-</div>
-
-<style>
-  .header {
-    position: sticky;
-    top: 0px;
-    z-index: 10;
-  }
-
-  .map {
-    width: auto;
-    height: 30vh;
-  }
-</style>
 
 <script>
 
@@ -327,16 +325,16 @@
         coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
     }
 
-    new maplibregl.Popup()
+    popup = new maplibregl.Popup()
         .setLngLat(coordinates)
         .setHTML(content)
         .addTo(map);
 
     // Переместиться к событию в списке
-    element = document.getElementById("event_" + id);
+    clicked_event = document.getElementById("event_" + id);
 
-    if (element) {
-      element.scrollIntoView({
+    if (clicked_event) {
+      clicked_event.scrollIntoView({
         behavior: 'smooth',
         block: 'end'
       });
