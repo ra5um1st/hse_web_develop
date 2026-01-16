@@ -26,69 +26,63 @@
 </div>
 
 <!-- Список пользователей -->
-<div id="event_list" class="flex w-full flex-col gap-2 m-2">
-    <script hx-trigger="load">
-        {% for event in events %}
-        events.push({
-            "geometry": {
-            "coordinates": [{{ event.geolocation.x | unlocalize }}, {{ event.geolocation.y | unlocalize }}]
-            },
-            "properties": {
-            "id": {{ event.id }},
-            "name": "{{ event.title }}",
-            "content": "{{ event.content }}"
-            }
-        });
-        {% endfor %}
-
-        update_map();
-    </script>
-
+<script hx-trigger="load">
     {% for event in events %}
-    <div id="event_{{ event.id }}" class="card card-side bg-base-100 shadow-sm m-1">
-        <figure class="w-1/3">
-            <img
-                src="{% if event.media_type == "image" and event.media_url %}{{ event.media_url }}{% else %}{% static 'images/test.png' %}{% endif %}"
-                alt="Событие" />
-            </figure>
-        <div class="card-body">
-            <h2 class="card-title">{{ event.title }}</h2>
-            <p>{{ event.content }}</p>
-            <div>{{ event.created | date:"d E Y г. в H:i" }}</div>
-            <div>
-                {% for tag in event.tags.all %}
-                <div class="badge badge-secondary">{{ tag.name }}</div>
-                {% endfor %}
-            </div>
-            <div class="card-actions justify-end">
-                <button class="btn btn-primary"
-                        onclick="map.flyTo({
-                        center: [{{ event.geolocation.x | unlocalize }}, {{ event.geolocation.y | unlocalize }}],
-                        zoom: 12,
-                        duration: 2000
-                        })">Показать</button>
-            </div>
+    events.push({
+        "geometry": {
+        "coordinates": [{{ event.geolocation.x | unlocalize }}, {{ event.geolocation.y | unlocalize }}]
+        },
+        "properties": {
+        "id": {{ event.id }},
+        "name": "{{ event.title }}",
+        "content": "{{ event.content }}"
+        }
+    });
+    {% endfor %}
+    update_map();
+</script>
+{% for event in events %}
+<div id="event_{{ event.id }}" class="card card-side bg-base-100 shadow-sm">
+    <figure class="min-w-[20%] w-[50%]">
+        <img
+            src="{% if event.media_type == "image" and event.media_url %}{{ event.media_url }}{% else %}{% static 'images/test.png' %}{% endif %}"
+            alt="Событие" />
+        </figure>
+    <div class="card-body w-full">
+        <h2 class="card-title">{{ event.title }}</h2>
+        <p>{{ event.content }}</p>
+        <div>{{ event.created | date:"d E Y г. в H:i" }}</div>
+        <div>
+            {% for tag in event.tags.all %}
+            <div class="badge badge-secondary">{{ tag.name }}</div>
+            {% endfor %}
         </div>
-
-        <div id="indicator" class="htmx-indicator card card-side bg-base-100 absolute gap-2 p-2 w-full h-full pointer-events-none z-1">
-            <div class="skeleton w-64"></div>
-            <div class="card-body h-full">
-                <div class="skeleton h-16 w-32"></div>
-                <div class="skeleton h-8 w-full"></div>
-                <div class="skeleton h-8 w-64"></div>
-                <div class="h-full"></div>
-                <div class="card-actions justify-end">
-                    <div class="skeleton h-8 w-24 "></div>
-                </div>
+        <div class="card-actions justify-end">
+            <button class="btn btn-primary"
+                    onclick="map.flyTo({
+                    center: [{{ event.geolocation.x | unlocalize }}, {{ event.geolocation.y | unlocalize }}],
+                    zoom: 12,
+                    duration: 2000
+                    })">Показать</button>
+        </div>
+    </div>
+    <div id="indicator" class="htmx-indicator card card-side bg-base-100 absolute gap-2 p-2 w-full h-full pointer-events-none z-1">
+        <div class="skeleton w-64"></div>
+        <div class="card-body h-full">
+            <div class="skeleton h-16 w-32"></div>
+            <div class="skeleton h-8 w-full"></div>
+            <div class="skeleton h-8 w-64"></div>
+            <div class="h-full"></div>
+            <div class="card-actions justify-end">
+                <div class="skeleton h-8 w-24 "></div>
             </div>
         </div>
     </div>
-
-    {% empty %}
-    <div class="font-medium text-xl p-4 text-center">События не найдены</div>
-    {% endfor %}
-
-    {% if form.has_next %}
-    {% include "partials/next_page_load.html" %}
-    {% endif %}
 </div>
+{% empty %}
+<div class="font-medium text-xl p-4 text-center">События не найдены</div>
+{% endfor %}
+
+{% if form.has_next %}
+{% include "partials/next_page_load.html" %}
+{% endif %}
