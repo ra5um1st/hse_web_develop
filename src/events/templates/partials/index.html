@@ -46,7 +46,7 @@
             <select name="order_by" class="select">
               <option disabled selected >Выберите</option>
               {% for event_order_field in select_options.event_order_fields %}
-              <option value="{{ event_order_field.id }}" {% if form.order_by == select_options.event_order_field.id %} selected {% endif %}>{{ event_order_field.name }}</option>
+              <option value="{{ event_order_field.id }}" {% if form.order_by == event_order_field.id %} selected {% endif %}>{{ event_order_field.name }}</option>
               {% endfor %}
             </select>
           </fieldset>

@@ -8,7 +8,7 @@
             alt="Событие" />
         </figure>
     <div class="card-body w-full">
-        <div class="text-primary font-semibold">{{ event.user_id.username }}</div>
+        <div class="text-primary font-semibold">Автор: {{ event.user_id.username }}</div>
         <div class="card-title">{{ event.title }}</div>
         <div>{{ event.content }}</div>
         <div>{{ event.created | date:"d E Y г. в H:i" }}</div>

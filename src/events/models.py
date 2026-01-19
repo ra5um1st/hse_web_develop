@@ -3,6 +3,7 @@ from datetime import datetime
 from django.contrib.auth import get_user_model
 import json
 from django.forms.models import model_to_dict
+from django.db.models.functions import Now
 
 # Create your models here.
 class Tag(models.Model):
@@ -16,7 +17,7 @@ class Event(models.Model):
     id = models.BigAutoField(primary_key=True)
     user_id = models.ForeignKey(get_user_model(), on_delete=models.SET_DEFAULT, default=None)
     geolocation = models.PointField(spatial_index=True)
-    created = models.DateTimeField(default=datetime.now())
+    created = models.DateTimeField(null=True, db_default=Now())
     updated = models.DateTimeField(blank=True, null=True)
     title = models.CharField(max_length=127)
     content = models.CharField(max_length=4095)

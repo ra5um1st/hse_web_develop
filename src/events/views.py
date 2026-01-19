@@ -23,6 +23,7 @@ def index(request):
         "title": "Наименование",
         "content": "Описание"
     }
+    
     page_sizes = [ 5, 10, 25, 100]
     event_fields = [ { "id": field.name, "name": event_order_field_names[field.name] } for field in Event._meta.get_fields() if field.name in event_order_field_names]
 
@@ -34,7 +35,10 @@ def index(request):
             "event_order_fields": event_fields,
             "page_sizes": page_sizes,
         },
-        "form": CreateEventForm()
+        "form": {
+            "order_by": "created",
+            "order_type": "desc"
+        }
     }
     
     return render(request, "partials/index.html", context)
@@ -108,9 +112,7 @@ def events_create(request):
     form = CreateEventForm()
     template = "events/create/get/events_create.html"
     status = 200
-    context = {
-        "form": form,
-    }
+    context = {}
     
     # if request.method == "GET":
     #     return render(request, "htmx/events_create.html")
@@ -122,6 +124,9 @@ def events_create(request):
         if event:
             event.user_id = request.user
             event.save()
+            context = {
+                "event": event
+            }
             template = "events/create/post/events_create.html"
         else:
             context = { 
