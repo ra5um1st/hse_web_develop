@@ -6,3 +6,5 @@ gdal-installer==1.0.2
 numpy==1.26.4
 django-htmx==1.8.0
 python-dateutil==2.9.0
+django-crispy-forms==2.5
+crispy-tailwind==1.0.3

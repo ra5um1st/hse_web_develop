@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     "django_browser_reload",
     'django.contrib.gis',
     'django_htmx',
+    'crispy_forms',
+    "crispy_tailwind",
     'events',
 ]
 
@@ -134,5 +136,9 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
+
+CRISPY_TEMPLATE_PACK = "tailwind"
 
 django_yamlconf.load()

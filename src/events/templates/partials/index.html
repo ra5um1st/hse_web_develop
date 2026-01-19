@@ -5,15 +5,16 @@
 {% block body %}
 
 <div class="md:flex">
-  <div id="menu" class="flex flex-col sticky z-1 top-0 h-full md:grow md:w-full md:min-w-xs md:h-[100vh] bg-base-100 shadow-sm rounded-lg">
+  
+  <div id="menu" class="flex flex-col sticky z-1 top-16 h-full md:w-full md:min-w-xs md:h-[calc(100vh-var(--spacing)*16)] bg-base-100 shadow-sm rounded-lg">
     <!-- Карта -->
     <div id="map" class="map h-[33vh] md:grow"></div>
 
     <!-- Поиск, сортировка, фильтрация -->
-    <form hx-get="{% url 'index' %}"
+    <form hx-get="{% url 'events_search' %}"
           hx-trigger="change, input changed delay:1s from:#search"
           hx-target="#event_list"
-          hx-push-url="true"
+          hx-push-url="false"
           hx-swap="innerHTML"
           hx-indicator="#indicator"
           hx-disabled-elt="button, select, input:not(#search)"
@@ -113,55 +114,12 @@
     </details>
   </div>
 
-  <!-- Список пользователей -->
+  <!-- Список событий -->
   <div id="event_list" class="flex flex-col gap-2 m-2 md:min-w-xs">
-      {% for event in events %}
-      <div id="event_{{ event.id }}" class="card card-side bg-base-100 shadow-sm">
-          <figure class="min-w-[20%] w-[50%]">
-              <img
-                  src="{% if event.media_type == "image" and event.media_url %}{{ event.media_url }}{% else %}{% static 'images/test.png' %}{% endif %}"
-                  alt="Событие" />
-              </figure>
-          <div class="card-body w-full">
-              <h2 class="card-title">{{ event.title }}</h2>
-              <p>{{ event.content }}</p>
-              <div>{{ event.created | date:"d E Y г. в H:i" }}</div>
-              <div>
-                  {% for tag in event.tags.all %}
-                  <div class="badge badge-secondary">{{ tag.name }}</div>
-                  {% endfor %}
-              </div>
-              <div class="card-actions justify-end">
-                  <button class="btn btn-primary"
-                          onclick="map.flyTo({
-                          center: [{{ event.geolocation.x | unlocalize }}, {{ event.geolocation.y | unlocalize }}],
-                          zoom: 12,
-                          duration: 2000
-                          })">Показать</button>
-              </div>
-          </div>
-
-          <div id="indicator" class="htmx-indicator card card-side bg-base-100 absolute gap-2 p-2 w-full h-full pointer-events-none z-1">
-              <div class="skeleton w-64"></div>
-              <div class="card-body h-full">
-                  <div class="skeleton h-16 w-32"></div>
-                  <div class="skeleton h-8 w-full"></div>
-                  <div class="skeleton h-8 w-64"></div>
-                  <div class="h-full"></div>
-                  <div class="card-actions justify-end">
-                      <div class="skeleton h-8 w-24 "></div>
-                  </div>
-              </div>
-          </div>
-      </div>
-      {% empty %}
-      <div class="font-medium text-xl p-4 text-center">События не найдены</div>
-      {% endfor %}
-
-      {% if form.has_next %}
       {% include "partials/next_page_load.html" %}
-      {% endif %}
   </div>
+
+  {% include "partials/events_actions.html" %}
 
 </div>
 

@@ -22,6 +22,7 @@ class Event(models.Model):
     content = models.CharField(max_length=4095)
     media_type = models.CharField(max_length=15, blank=True, null=True)
     media_url = models.CharField(max_length=2047, blank=True, null=True)
+    media_bytes = models.BinaryField(max_length=65536, blank=True, null=True)
     
     tags = models.ManyToManyField(Tag, through='Event_Tag')
     

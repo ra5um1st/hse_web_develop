@@ -1,0 +1,53 @@
+{% load static %}
+{% load l10n %}
+
+<!-- Статистика -->
+<div id="event_stats" class="flex gap-2 mx-2" hx-swap-oob="true" >
+    <div class="stats shadow">
+        <div class="stat">
+            <div class="stat-title">Количество событий</div>
+            <div class="stat-value">{{ stats.events_count }}</div>
+        </div>
+    </div>
+
+    <div class="stats shadow">
+        <div class="stat">
+            <div class="stat-title">Популярные теги</div>
+            <div class="flex gap-1">
+                {% for popular_tag in stats.popular_tags %}
+                <div class="badge badge badge-primary badge-xl">
+                    <div>{{ popular_tag.name }}</div>
+                    <div class="stat-value text-2xl">{{ popular_tag.count }}</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Список событий -->
+<script hx-trigger="load">
+    {% for event in events %}
+    events.push({
+        "geometry": {
+        "coordinates": [{{ event.geolocation.x | unlocalize }}, {{ event.geolocation.y | unlocalize }}]
+        },
+        "properties": {
+        "id": {{ event.id }},
+        "name": "{{ event.title }}",
+        "content": "{{ event.content }}"
+        }
+    });
+    {% endfor %}
+    update_map();
+</script>
+
+{% for event in events %}
+{% include "partials/event_card.html" %}
+{% empty %}
+<div class="font-medium text-xl p-4 text-center">События не найдены</div>
+{% endfor %}
+
+{% if form.has_next %}
+{% include "partials/next_page_load.html" %}
+{% endif %}

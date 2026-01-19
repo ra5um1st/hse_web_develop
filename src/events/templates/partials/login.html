@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+{% load l10n %}
+
+{% block body %}
+
+<form class="neutral-content h-[calc(100vh-var(--spacing)*16)] flex justify-center"
+      method="POST"
+      action="{% url 'accounts_login' %}">
+      {% csrf_token %}
+  <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4 self-center mb-32">
+    <legend class="fieldset-legend">Login</legend>
+
+    <label class="label">Username</label>
+    <input name="username" type="text" class="input" placeholder="Username" />
+
+    <label class="label">Password</label>
+    <input name="password" type="password" class="input" placeholder="Password" />
+
+    {% if form.is_login_invalid %}
+    <p class="text-error text-center">Не удалось авторизоваться</p>
+    {% endif %}
+
+    <a href="{% url 'accounts_create' %}" class="text-secondary justify-self-end hover:underline m-2">Register</a>
+
+    <button class="btn btn-neutral mt-2">Login</button>
+  </fieldset>
+</form>
+
+{% endblock body %}

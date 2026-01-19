@@ -1,0 +1,17 @@
+<div class="fab">
+  <button class="btn btn-xl btn-circle btn-secondary"
+          onclick="modal_event_create.showModal()"
+          hx-get="{% url 'events_create' %}"
+          hx-trigger="click"
+          hx-target="#modal_event_create_content">+</button>
+
+  <dialog id="modal_event_create" class="modal">
+    <div class="modal-box">
+        <h3 class="text-lg font-bold mb-4">Создать событие</h3>
+        <div id="modal_event_create_content"></div>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+    </form>
+    </dialog>
+</div>

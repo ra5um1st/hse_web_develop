@@ -1,0 +1,42 @@
+{% load static %}
+{% load l10n %}
+
+<div id="event_{{ event.id }}" class="card card-side bg-base-100 shadow-sm">
+    <figure class="min-w-[20%] w-[50%]">
+        <img
+            src="{% if event.media_type == "image" and event.media_url %}{{ event.media_url }}{% else %}{% static 'images/test.png' %}{% endif %}"
+            alt="Событие" />
+        </figure>
+    <div class="card-body w-full">
+        <div class="text-primary font-semibold">{{ event.user_id.username }}</div>
+        <div class="card-title">{{ event.title }}</div>
+        <div>{{ event.content }}</div>
+        <div>{{ event.created | date:"d E Y г. в H:i" }}</div>
+        <div>
+            {% for tag in event.tags.all %}
+            <div class="badge badge-secondary">{{ tag.name }}</div>
+            {% endfor %}
+        </div>
+        <div class="card-actions justify-end">
+            <button class="btn btn-primary"
+                    onclick="map.flyTo({
+                    center: [{{ event.geolocation.x | unlocalize }}, {{ event.geolocation.y | unlocalize }}],
+                    zoom: 12,
+                    duration: 2000
+                    })">Показать</button>
+        </div>
+    </div>
+    
+    <div id="indicator" class="htmx-indicator card card-side bg-base-100 absolute gap-2 p-2 w-full h-full pointer-events-none z-1">
+        <div class="skeleton w-64"></div>
+        <div class="card-body h-full">
+            <div class="skeleton h-16 w-32"></div>
+            <div class="skeleton h-8 w-full"></div>
+            <div class="skeleton h-8 w-64"></div>
+            <div class="h-full"></div>
+            <div class="card-actions justify-end">
+                <div class="skeleton h-8 w-24 "></div>
+            </div>
+        </div>
+    </div>
+</div>
