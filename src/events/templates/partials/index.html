@@ -115,13 +115,14 @@
   </div>
 
   <!-- Список событий -->
-  <div id="event_list" class="flex flex-col gap-2 m-2 md:min-w-xs">
+  <div id="event_list" class="flex flex-col gap-2 m-2 md:min-w-xs md:max-w-[50%]">
       {% include "partials/next_page_load.html" %}
   </div>
 
   {% include "partials/events_actions.html" %}
 
 </div>
+
 
 <script>
   var map = new maplibregl.Map({

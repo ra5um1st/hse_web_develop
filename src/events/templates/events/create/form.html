@@ -1,0 +1,55 @@
+<form id="events_create_form"
+      class="flex justify-center"
+      hx-post="{% url 'events_create' %}"
+      hx-target="#event_list"
+      hx-swap="afterbegin"
+      hx-on:htmx:after-request="if (event.detail.successful) { closeCreateEventModal(); }"
+      hx-swap-oob="true"
+      enctype="multipart/form-data">
+  <fieldset class="fieldset border-base-300 rounded-box w-xs border p-4 ">
+    <fieldset class="fieldset">
+      <legend class="fieldset-legend">Title</legend>
+      <input name="title" type="text" class="input {% if form.title.errors %}input-error{% endif %}" placeholder="Title" value="{% if form.title.value %}{{ form.title.value }}{% endif %}"/>
+      {% if form.title.errors %}<div class="*:text-error">{{ form.title.errors }}</div>{% endif %}
+    </fieldset>
+    
+    <fieldset class="fieldset">
+      <legend class="fieldset-legend">Content</legend>
+      <textarea name="content" class="textarea {% if form.content.errors %}input-error{% endif %}" placeholder="Content" >{{ form.content.value }}</textarea>
+      {% if form.content.errors %}<div class="*:text-error">{{ form.content.errors }}</div>{% endif %}
+    </fieldset>
+
+    <fieldset class="fieldset">
+      <legend class="fieldset-legend">Geolocation</legend>
+      <div class="h-48 flex gap-2">
+        {% include "partials/input_geolocation.html" with input_geolocation_lng_name="geolocation_lng" input_geolocation_lat_name="geolocation_lat" input_geolocation_lng_errors=form.geolocation_lng.errors input_geolocation_lat_errors=form.geolocation_lat.errors input_geolocaton_lng_value=form.geolocation_lng.value input_geolocaton_lat_value=form.geolocation_lat.value %}
+      </div>
+      {% comment %} {% if form.geolocation_lat.errors %}<div class="*:text-error">{{ form.geolocation_lat.errors }}</div>{% endif %}
+      {% if form.geolocation_lng.errors %}<div class="*:text-error">{{ form.geolocation_lng.errors }}</div>{% endif %} {% endcomment %}
+    </fieldset>
+
+    <fieldset class="fieldset">
+      <legend class="fieldset-legend">Date and time</legend>
+      <input name="created" type="datetime-local" class="input {% if form.created.errors %}input-error{% endif %}" value="{{ form.created.value }}" />
+      {% if form.created.errors %}<div class="*:text-error">{{ form.created.errors }}</div>{% endif %}
+    </fieldset>
+
+    <fieldset class="fieldset">
+      <legend class="fieldset-legend">Media</legend>
+      <input name="media" type="file" class="file-input file-input-primary {% if form.media.errors %}file-input-error{% endif %}" accept="image/*,.gif" value="{{ form.media.value }}" />
+      {% if form.media.errors %}<div class="*:text-error">{{ form.media.errors }}</div>{% endif %}
+    </fieldset>
+
+    {% if form.errors or form.non_field_errors %}
+    <p class="text-error text-center">Не удалось создать событие{% if form.non_field_errors %}: {{ form.non_field_errors }}{% endif %}</p>
+    {% endif %}
+
+    <button class="btn btn-neutral mt-2">Создать</button>
+  </fieldset>
+
+  <script>
+    function closeCreateEventModal() {
+      document.getElementById("modal_event_create").close();
+    }
+  </script>
+</form>

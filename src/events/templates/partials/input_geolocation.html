@@ -1,63 +1,63 @@
 <div class="flex flex-col gap-2">
     <div class="join">
-        <input name="{% with input_geolocation_lng_name as input_geolocation_lng %}{{ input_geolocation_lng_name }}{% endwith %}" id="input_geolocation_lng" type="number" step="any" class="input join-item" placeholder="Lng" ></input>
-        <input name="{% with input_geolocation_lat_name as input_geolocation_lat %}{{ input_geolocation_lat_name }}{% endwith %}" id="input_geolocation_lat" type="number" step="any" class="input join-item" placeholder="Lat" ></input>
+        <input name="{% with input_geolocation_lng_name as input_geolocation_lng %}{{ input_geolocation_lng_name }}{% endwith %}" id="input_geolocation_lng" type="number" step="any" class="input join-item {% if input_geolocation_lng_errors %}input-error{% endif %}" placeholder="Lng" value="{{ input_geolocaton_lng_value }}"></input>
+        <input name="{% with input_geolocation_lat_name as input_geolocation_lat %}{{ input_geolocation_lat_name }}{% endwith %}" id="input_geolocation_lat" type="number" step="any" class="input join-item {% if input_geolocation_lat_errors %}input-error{% endif %}" placeholder="Lat" value="{{ input_geolocaton_lat_value }}"></input>
     </div>
 
-    <div id="input_geolocation_map" class="map grow">
+    <div id="input_geolocation_map" class="map grow h-50" hx-trigger="load" hx-on:htmx:trigger="loadInputGeolocationMap()">
         <script>
-
             {% comment %} map.flyTo({
                     center: [{{ event.geolocation.x | unlocalize }}, {{ event.geolocation.y | unlocalize }}],
                     zoom: 12,
                     duration: 2000
                     }); {% endcomment %}
 
-            var input_geolocation_map = new maplibregl.Map({
-                container: 'input_geolocation_map',
-                style: {
-                    version: 8,
-                    projection: {
-                        type: 'interpolate'
-                    },
-                    sources: {
-                        osm: {
-                            type: 'raster',
-                            tiles: ['https://a.tile.openstreetmap.org/{z}/{x}/{y}.png'],
-                            tileSize: 256,
-                            attribution: '© OpenStreetMap Contributors',
-                            maxzoom: 19
+            function loadInputGeolocationMap() {
+                var input_geolocation_map = new maplibregl.Map({
+                    container: 'input_geolocation_map',
+                    style: {
+                        version: 8,
+                        sources: {
+                            osm: {
+                                type: 'raster',
+                                tiles: ['https://a.tile.openstreetmap.org/{z}/{x}/{y}.png'],
+                                tileSize: 256,
+                                attribution: '© OpenStreetMap Contributors',
+                                maxzoom: 19
+                            },
+                            
                         },
-                        
+                        layers: [
+                            {
+                                id: 'osm',
+                                type: 'raster',
+                                source: 'osm'
+                            },
+                        ]
                     },
-                    layers: [
-                        {
-                            id: 'osm',
-                            type: 'raster',
-                            source: 'osm'
-                        },
-                    ]
-                },
-                center: [43.9, 56.3],
-                zoom: 8
-            });
+                    center: [43.9, 56.3],
+                    zoom: 8
+                });
 
-            var marker = null;
+                var marker = null;
 
-            input_geolocation_map.on('click', (e) => {
-                if (marker) {
-                    marker.remove();
-                }
+                input_geolocation_map.on('click', (e) => {
+                    if (marker) {
+                        marker.remove();
+                    }
 
-                var input_lng = document.getElementById("input_geolocation_lng");
-                var input_lat = document.getElementById("input_geolocation_lat");
-                input_lng.value = e.lngLat.lng;
-                input_lat.value = e.lngLat.lat;
+                    var input_lng = document.getElementById("input_geolocation_lng");
+                    var input_lat = document.getElementById("input_geolocation_lat");
+                    input_lng.value = e.lngLat.lng;
+                    input_lat.value = e.lngLat.lat;
 
-                marker = new maplibregl.Marker()
-                    .setLngLat(e.lngLat)
-                    .addTo(input_geolocation_map);
-            });
+                    marker = new maplibregl.Marker()
+                        .setLngLat(e.lngLat)
+                        .addTo(input_geolocation_map);
+                });
+            }
+
+
         </script>
     </div>
 </div>

@@ -17,7 +17,7 @@
             <div class="badge badge-secondary">{{ tag.name }}</div>
             {% endfor %}
         </div>
-        <div class="card-actions justify-end">
+        <div class="card-actions flex h-full self-end justify-items-end items-end">
             <button class="btn btn-primary"
                     onclick="map.flyTo({
                     center: [{{ event.geolocation.x | unlocalize }}, {{ event.geolocation.y | unlocalize }}],

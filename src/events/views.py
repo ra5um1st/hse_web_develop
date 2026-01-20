@@ -9,6 +9,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.urls import reverse
+from django_htmx.http import retarget, reswap
 import time
 from datetime import datetime
 from dateutil import parser
@@ -110,16 +111,12 @@ def events_search(request):
 
 def events_create(request):
     form = CreateEventForm()
-    template = "events/create/get/events_create.html"
-    status = 200
+    template = "events/create/post/events_create.html"
     context = {}
     
-    # if request.method == "GET":
-    #     return render(request, "htmx/events_create.html")
-    
     if request.POST and request.htmx:
-        form = CreateEventForm(request.POST)
-        event = form.save()
+        form = CreateEventForm(request.POST, request.FILES)
+        event = form.create_event()
         
         if event:
             event.user_id = request.user
@@ -127,15 +124,22 @@ def events_create(request):
             context = {
                 "event": event
             }
-            template = "events/create/post/events_create.html"
         else:
+            template = "events/create/form.html"
             context = { 
                 "form": form,
                 "has_errors": True
             }
-            status = 400
+            # response = render(request, template, context)
+            # response = reswap(response, "outerHTML")
+            # return retarget(response, "#events_create_form")
+                        
     
-    return render(request, template, context, status=status)
+    return render(request, template, context)
+
+def events_media(request, event_id):
+    
+    return HttpResponse("", content_type="")
 
 def accounts_create(request):
     context = {
