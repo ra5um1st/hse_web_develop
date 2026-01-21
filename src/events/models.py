@@ -1,3 +1,4 @@
+import base64
 from django.contrib.gis.db import models
 from datetime import datetime
 from django.contrib.auth import get_user_model
@@ -26,6 +27,9 @@ class Event(models.Model):
     media_bytes = models.BinaryField(max_length=65536, blank=True, null=True)
     
     tags = models.ManyToManyField(Tag, through='Event_Tag')
+    
+    def get_media_bytes_base64(self):
+        return base64.b64encode(self.media_bytes).decode('utf-8')
     
     def __str__(self):
         return json.dumps(self.title, indent=4, ensure_ascii=False)

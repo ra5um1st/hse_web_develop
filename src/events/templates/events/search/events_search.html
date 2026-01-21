@@ -1,0 +1,32 @@
+{% load static %}
+{% load l10n %}
+
+<!-- Статистика -->
+{% include "events/events_stats.html" %}
+
+<!-- Список событий -->
+<script hx-trigger="load">
+    {% for event in events %}
+    events.push({
+        "geometry": {
+        "coordinates": [{{ event.geolocation.x | unlocalize }}, {{ event.geolocation.y | unlocalize }}]
+        },
+        "properties": {
+        "id": {{ event.id }},
+        "name": "{{ event.title }}",
+        "content": "{{ event.content }}"
+        }
+    });
+    {% endfor %}
+    update_map();
+</script>
+
+{% for event in events %}
+{% include "events/events_card.html" %}
+{% empty %}
+<div class="font-medium text-xl p-4 text-center">События не найдены</div>
+{% endfor %}
+
+{% if form.has_next %}
+{% include "events/events_next_page_load.html" %}
+{% endif %}

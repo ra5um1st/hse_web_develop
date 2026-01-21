@@ -1,7 +1,3 @@
-{% load static %}
-{% load l10n %}
-
-<!-- Статистика -->
 <div id="event_stats" class="flex gap-2 mx-2" hx-swap-oob="true" >
     <div class="stats shadow">
         <div class="stat">
@@ -24,30 +20,3 @@
         </div>
     </div>
 </div>
-
-<!-- Список событий -->
-<script hx-trigger="load">
-    {% for event in events %}
-    events.push({
-        "geometry": {
-        "coordinates": [{{ event.geolocation.x | unlocalize }}, {{ event.geolocation.y | unlocalize }}]
-        },
-        "properties": {
-        "id": {{ event.id }},
-        "name": "{{ event.title }}",
-        "content": "{{ event.content }}"
-        }
-    });
-    {% endfor %}
-    update_map();
-</script>
-
-{% for event in events %}
-{% include "partials/event_card.html" %}
-{% empty %}
-<div class="font-medium text-xl p-4 text-center">События не найдены</div>
-{% endfor %}
-
-{% if form.has_next %}
-{% include "partials/next_page_load.html" %}
-{% endif %}

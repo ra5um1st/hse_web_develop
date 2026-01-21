@@ -4,7 +4,8 @@
 <dialog id="modal_event_create" class="modal">
   <div class="modal-box">
       <h3 class="text-lg font-bold mb-4">Создать событие</h3>
-      <div id="modal_event_create_content">
+      <div id="modal_event_create_content" 
+           hx-on::after-request="if (event.detail.xhr.getResponseHeader('X-Entity-Created') === 'true') { closeCreateEventModal(); }">
           {% include "events/create/form.html" %}
       </div>
   </div>

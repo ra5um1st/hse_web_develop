@@ -4,7 +4,7 @@
 <div id="event_{{ event.id }}" class="card card-side bg-base-100 shadow-sm">
     <figure class="min-w-[20%] w-[50%]">
         <img
-            src="{% if event.media_type == "image" and event.media_url %}{{ event.media_url }}{% else %}{% static 'images/test.png' %}{% endif %}"
+            src="{% if event.media_url %}{{ event.media_url }}{% elif event.media_type %}data:{{ event.media_type }};base64,{{ event.get_media_bytes_base64 }}{% else %}{% static 'images/test.png' %}{% endif %}"
             alt="Событие" />
         </figure>
     <div class="card-body w-full">
@@ -27,7 +27,7 @@
         </div>
     </div>
     
-    <div id="indicator" class="htmx-indicator card card-side bg-base-100 absolute gap-2 p-2 w-full h-full pointer-events-none z-1">
+    <div id="indicator" class="htmx-indicator card card-side bg-base-100 absolute gap-2 p-2 w-full h-full pointer-events-none">
         <div class="skeleton w-64"></div>
         <div class="card-body h-full">
             <div class="skeleton h-16 w-32"></div>

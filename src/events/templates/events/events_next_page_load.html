@@ -1,0 +1,7 @@
+<div class="flex justify-center gap-2 font-medium text-xl p-4"
+     hx-get="{% url 'events_search' %}?search_text={{ form.search_text }}&order_by={{ form.order_by }}&order_type={{ form.order_type }}&start_date={{ form.start_date }}&end_date={{ form.end_date }}&page={{ form.page|add:"1" }}&page_size={{ form.page_size }}"
+     hx-trigger="revealed"
+     hx-swap="outerHTML">
+    <div>Загружаем контент</div>
+    <span class="loading loading-dots loading-md"></span>
+</div>

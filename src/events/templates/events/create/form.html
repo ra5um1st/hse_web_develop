@@ -3,7 +3,7 @@
       hx-post="{% url 'events_create' %}"
       hx-target="#event_list"
       hx-swap="afterbegin"
-      hx-on:htmx:after-request="if (event.detail.successful) { closeCreateEventModal(); }"
+      {% comment %} hx-on:click="alert('wefwefwef');" {% endcomment %}
       hx-swap-oob="true"
       enctype="multipart/form-data">
   <fieldset class="fieldset border-base-300 rounded-box w-xs border p-4 ">
@@ -18,7 +18,6 @@
       <textarea name="content" class="textarea {% if form.content.errors %}input-error{% endif %}" placeholder="Content" >{{ form.content.value }}</textarea>
       {% if form.content.errors %}<div class="*:text-error">{{ form.content.errors }}</div>{% endif %}
     </fieldset>
-
     <fieldset class="fieldset">
       <legend class="fieldset-legend">Geolocation</legend>
       <div class="h-48 flex gap-2">
@@ -27,26 +26,21 @@
       {% comment %} {% if form.geolocation_lat.errors %}<div class="*:text-error">{{ form.geolocation_lat.errors }}</div>{% endif %}
       {% if form.geolocation_lng.errors %}<div class="*:text-error">{{ form.geolocation_lng.errors }}</div>{% endif %} {% endcomment %}
     </fieldset>
-
     <fieldset class="fieldset">
       <legend class="fieldset-legend">Date and time</legend>
       <input name="created" type="datetime-local" class="input {% if form.created.errors %}input-error{% endif %}" value="{{ form.created.value }}" />
       {% if form.created.errors %}<div class="*:text-error">{{ form.created.errors }}</div>{% endif %}
     </fieldset>
-
     <fieldset class="fieldset">
       <legend class="fieldset-legend">Media</legend>
       <input name="media" type="file" class="file-input file-input-primary {% if form.media.errors %}file-input-error{% endif %}" accept="image/*,.gif" value="{{ form.media.value }}" />
       {% if form.media.errors %}<div class="*:text-error">{{ form.media.errors }}</div>{% endif %}
     </fieldset>
-
     {% if form.errors or form.non_field_errors %}
     <p class="text-error text-center">Не удалось создать событие{% if form.non_field_errors %}: {{ form.non_field_errors }}{% endif %}</p>
     {% endif %}
-
     <button class="btn btn-neutral mt-2">Создать</button>
   </fieldset>
-
   <script>
     function closeCreateEventModal() {
       document.getElementById("modal_event_create").close();

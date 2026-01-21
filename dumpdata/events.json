@@ -9,7 +9,7 @@
         "updated": null,
         "title": "Концерт классической музыки",
         "content": "Симфонический оркестр исполняет произведения Чайковского.",
-        "media_type": "image",
+        "media_type": "url",
         "media_url": "https://phil-nsk.ru/upload/iblock/4b5/4b58884233b9a7d3566dc6c7a5d1cf21.jpg"
     }
 },
@@ -23,7 +23,7 @@
         "updated": null,
         "title": "Выставка современного искусства",
         "content": "Открытие выставки молодых художников в центре Парижа.",
-        "media_type": "image",
+        "media_type": "url",
         "media_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6qkKBs0gke7VG_yDFuxWoKBBOkFxwIOj0KA&s"
     }
 },
@@ -37,7 +37,7 @@
         "updated": null,
         "title": "Международный фестиваль еды",
         "content": "Проведение фестиваля японской кухни в Токио.",
-        "media_type": "image",
+        "media_type": "url",
         "media_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxKZHSG_GwG7Gc3fHiE7VvYXn1ugCubrI-Vw&s"
     }
 },
@@ -51,7 +51,7 @@
         "updated": null,
         "title": "Маршрут велосипедистов",
         "content": "Ежегодный велозаезд по улицам Лондона.",
-        "media_type": "image",
+        "media_type": "url",
         "media_url": "https://lh4.googleusercontent.com/proxy/SHHN86A_ABtT8gRDEiHJ2lAqC1ALEiw74un80KIwAEcc1GMNmfiPtEMXdDLnkzkx2jOTfTflaDuC0xyHnXuc0Y6KzMWdM2RB0GnL2X_WgOLjxng2tvqB1Lbop_4"
     }
 },
@@ -65,7 +65,7 @@
         "updated": null,
         "title": "Открытый кинопоказ",
         "content": "Показ культовых фильмов под открытым небом в Лос-Анджелесе.",
-        "media_type": "image",
+        "media_type": "url",
         "media_url": "https://thecity.m24.ru/b/d/SYketSiveYg5JvPSfurQC04VAxhsdX2wl4VGK3kftkTqqpuDxHXYBEb3KdEqJFNmHN2I2j8tqA3PYdbYIe71F2MJ5xZVjA8=HpIamJbstUcbolyYpIWy2Q.jpg"
     }
 },
@@ -79,7 +79,7 @@
         "updated": null,
         "title": "Морская регата",
         "content": "Регата парусников в Сиднее.",
-        "media_type": "image",
+        "media_type": "url",
         "media_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgxkSO01cIO4ITbLEJQ2kGdlBlWjYegqe0DQ&s"
     }
 },
@@ -93,7 +93,7 @@
         "updated": null,
         "title": "Национальный праздник Сингапура",
         "content": "Парад и фейерверк в честь Дня Независимости.",
-        "media_type": "image",
+        "media_type": "url",
         "media_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcIlOGCER4UmCJld3WmFPYJ0nJIrUfxuaomw&s"
     }
 },
@@ -107,7 +107,7 @@
         "updated": null,
         "title": "Карнавал в Сан-Паулу",
         "content": "Яркий карнавал с традиционными бразильскими танцами.",
-        "media_type": "image",
+        "media_type": "url",
         "media_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBwCgWD65xGEa_savNS_xuLwRA32ngGQLHTQ&s"
     }
 },
@@ -121,7 +121,7 @@
         "updated": null,
         "title": "Музыкальный фестиваль",
         "content": "Большой музыкальный фестиваль в Мельбурне.",
-        "media_type": "image",
+        "media_type": "url",
         "media_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTnlbrpauxm5vmuoqNp-Mcf7xiJKZzXiqK6g&s"
     }
 },
@@ -135,7 +135,7 @@
         "updated": null,
         "title": "Политический митинг",
         "content": "Демонстрация сторонников экологического движения в Вашингтоне.",
-        "media_type": "image",
+        "media_type": "url",
         "media_url": "https://ichef.bbci.co.uk/ace/ws/640/cpsprodpb/05a7/live/8e771160-d5cb-11ef-a825-33052ed7b1ff.jpg.webp"
     }
 },
@@ -149,7 +149,7 @@
         "updated": null,
         "title": "Фестиваль уличной еды",
         "content": "Праздник национальной русской кухни в Москве.",
-        "media_type": "image",
+        "media_type": "url",
         "media_url": "https://kudamoscow.ru/uploads/54179b67997d590f11be472e0ebed13b.jpg"
     }
 },
@@ -163,7 +163,7 @@
         "updated": null,
         "title": "Международный кинофестиваль",
         "content": "Фестиваль азиатского кино в Сеуле.",
-        "media_type": "image",
+        "media_type": "url",
         "media_url": "https://fanasia.ru/_nw/37/00531351.jpg"
     }
 },
@@ -177,7 +177,7 @@
         "updated": null,
         "title": "Турнир по баскетболу",
         "content": "Матч NBA Bulls против Lakers в Чикаго.",
-        "media_type": "image",
+        "media_type": "url",
         "media_url": "https://cdnn21.img.ria.ru/images/rsport/111304/33/1113043313_0:0:0:0_650x0_80_0_0_304b6be8819e296e3875041803663f70.jpg"
     }
 },
@@ -191,7 +191,7 @@
         "updated": null,
         "title": "Научная конференция",
         "content": "Встреча ученых на тему экологии и устойчивого развития в Берлине.",
-        "media_type": "image",
+        "media_type": "url",
         "media_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQckNJ80dkFkEZpudIEoEPPHPYH6Sa6eEDMFw&s"
     }
 },
@@ -205,7 +205,7 @@
         "updated": null,
         "title": "Культурный фестиваль",
         "content": "Фестиваль искусств и культуры разных народов мира в Сан-Франциско.",
-        "media_type": "image",
+        "media_type": "url",
         "media_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRPmDkmWJGXOvgOO_idi1PqA4y27mgev1ykA&s"
     }
 },
@@ -219,7 +219,7 @@
         "updated": null,
         "title": "Гастрономическое шоу",
         "content": "Шоу поваров из разных стран Азии в Гонконге.",
-        "media_type": "image",
+        "media_type": "url",
         "media_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbrGWuLhjdEZRs_ySjTyJeDJt65If7czva-g&s"
     }
 },
@@ -233,7 +233,7 @@
         "updated": null,
         "title": "Футбольный турнир",
         "content": "Матч Real Madrid против Barcelona в Мадриде.",
-        "media_type": "image",
+        "media_type": "url",
         "media_url": "https://gooool365.org/uploads/posts/2026-01/1768133442_real-i-barsa-byutsya-za-trofej_17679640751305409698.jpg"
     }
 },
@@ -247,7 +247,7 @@
         "updated": null,
         "title": "Фестиваль анимации",
         "content": "Крупнейший аниме-фестиваль в Киото.",
-        "media_type": "image",
+        "media_type": "url",
         "media_url": "https://japantimes.ru/images/events/anime_japan/anime-3.jpg"
     }
 },
@@ -261,7 +261,7 @@
         "updated": null,
         "title": "Технологический саммит",
         "content": "Саммит инновационных технологий в Атланте.",
-        "media_type": "image",
+        "media_type": "url",
         "media_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7IexsZU1e1k_21J1SLe1_G2ryAg88LhvUeA&s"
     }
 },
@@ -275,7 +275,7 @@
         "updated": null,
         "title": "Китайский Новый Год",
         "content": "Торжественное празднование китайского Нового Года в Пекине.",
-        "media_type": "image",
+        "media_type": "url",
         "media_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRg7p-MEGZqMxAlNaJdLdoEMycnc0wEd1-Qzw&s"
     }
 },
@@ -289,7 +289,7 @@
         "updated": null,
         "title": "Хэллоуинская вечеринка",
         "content": "Ночная тематическая вечеринка в Лос-Анджелесе.",
-        "media_type": "image",
+        "media_type": "url",
         "media_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJQy2WC1wuCASCZAZZAHIeIBe10g4XWPPM9A&s"
     }
 },
@@ -303,7 +303,7 @@
         "updated": null,
         "title": "Чемпионат по робототехнике",
         "content": "Соревнования роботов в Токио.",
-        "media_type": "image",
+        "media_type": "url",
         "media_url": "https://habrastorage.org/getpro/habr/upload_files/bf5/5f2/d94/bf55f2d944698bb49c183b9b2e0e9bdf.jpg"
     }
 },
@@ -317,7 +317,7 @@
         "updated": null,
         "title": "Литературная премия",
         "content": "Награждение лауреатов литературной премии Букера в Лондоне.",
-        "media_type": "image",
+        "media_type": "url",
         "media_url": "https://static.tildacdn.com/tild3763-6163-4636-b434-386430333936/photo.jpg"
     }
 },
@@ -331,7 +331,7 @@
         "updated": null,
         "title": "Бизнес-конференция",
         "content": "Совещание лидеров бизнеса Юго-Восточной Азии в Сингапуре.",
-        "media_type": "image",
+        "media_type": "url",
         "media_url": "https://static.mk.ru/upload/entities/2025/09/04/10/articles/detailPicture/47/3c/60/16/72b4e00c5d745baf0b2e4b3359e78e73.jpg"
     }
 },
@@ -345,7 +345,7 @@
         "updated": null,
         "title": "Благотворительный марафон",
         "content": "Забег на благотворительность в Сан-Паулу.",
-        "media_type": "image",
+        "media_type": "url",
         "media_url": "https://images.ahotu.com/iqt3ie7qi5d8ls0tc0jedus3u1ft?w=1920&q=75&f=webp"
     }
 },
@@ -359,7 +359,7 @@
         "updated": null,
         "title": "Спортивный матч",
         "content": "Футбольный матч Зенит - ЦСКА",
-        "media_type": "image",
+        "media_type": "url",
         "media_url": "https://admsov.ru/wp-content/uploads/2024/12/vse-pro-futbol-ili-neskolko-interesnykh-faktov-730x365-2.jpg"
     }
 },
@@ -373,7 +373,7 @@
         "updated": null,
         "title": "Собрание акционеров",
         "content": "Обсуждение текущего плана развития компании",
-        "media_type": "image",
+        "media_type": "url",
         "media_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmsRNumkNI6SXjoJKoXKRfTStVAXowujKKHA&s"
     }
 },
@@ -387,7 +387,7 @@
         "updated": null,
         "title": "Городское мероприятие",
         "content": "Празднование дня защитника отечества",
-        "media_type": "image",
+        "media_type": "url",
         "media_url": "https://gymnastnsk.ru/wp-content/uploads/2025/03/img-20250227-wa0052.jpg"
     }
 }

@@ -17,7 +17,7 @@ from events.forms.events import CreateEventForm
 import os
 
 # Create your views here.
-def index(request):
+def get_events_page_context():
     event_order_field_names = {
         "geolocation": "Геолокация",
         "created": "Дата",
@@ -27,7 +27,6 @@ def index(request):
     
     page_sizes = [ 5, 10, 25, 100]
     event_fields = [ { "id": field.name, "name": event_order_field_names[field.name] } for field in Event._meta.get_fields() if field.name in event_order_field_names]
-
     context = {
         "page": {
             "header": "События",
@@ -35,30 +34,30 @@ def index(request):
         "select_options": {
             "event_order_fields": event_fields,
             "page_sizes": page_sizes,
-        },
-        "form": {
-            "order_by": "created",
-            "order_type": "desc"
         }
     }
     
-    return render(request, "partials/index.html", context)
+    return context
+    
+
+def index(request):
+    return render(request, "partials/index.html", get_events_page_context())
 
 def events_search(request):
-    order_type = request.GET.get("order_type", "asc") or "asc"
-    order_by = request.GET.get("order_by", "id") or "id"
+    order_type = request.GET.get("order_type", "asc") or "desc"
+    order_by = request.GET.get("order_by", "id") or "created"
     start_date = request.GET.get("start_date", "") or ""
     end_date = request.GET.get("end_date", "") or ""
     search_text = request.GET.get("search_text", "") or ""
     page = request.GET.get("page", 1) or 1
     page_size = request.GET.get("page_size", 5) or 5
-
+        
     if order_type == "desc":
         order_by = f"-{order_by}"
 
     start_date = datetime.min if start_date == "" else parser.parse(start_date)
     end_date = datetime.max if end_date == "" else parser.parse(end_date)
-
+    
     events = (
         Event.objects
         .select_related('user_id')
@@ -101,13 +100,18 @@ def events_search(request):
             "start_date": start_date.isoformat() if start_date != datetime.min else "",
             "end_date": end_date.isoformat()  if end_date != datetime.max else "",
             "search_text": search_text,
-            "page": int(page) + 1,
+            "page": int(page),
             "page_size": page_size,
             "has_next": events_page.has_next(),
-        },
+        }
     }
     
-    return render(request, "htmx/filter_events.html", context)
+    if not request.htmx:
+        context |= get_events_page_context()
+        
+        return render(request, "partials/index.html", context)
+    
+    return render(request, "events/search/events_search.html", context)
 
 def events_create(request):
     form = CreateEventForm()
@@ -122,24 +126,22 @@ def events_create(request):
             event.user_id = request.user
             event.save()
             context = {
-                "event": event
+                "event": event,
+                
             }
         else:
             template = "events/create/form.html"
             context = { 
-                "form": form,
-                "has_errors": True
+                "form": form
             }
-            # response = render(request, template, context)
-            # response = reswap(response, "outerHTML")
-            # return retarget(response, "#events_create_form")
-                        
     
-    return render(request, template, context)
-
-def events_media(request, event_id):
+    response = render(request, template, context)
     
-    return HttpResponse("", content_type="")
+    if "event" in context:
+        response["X-Entity-Created"] = "true"
+        response["HX-Redirect"] = "/"
+        
+    return response
 
 def accounts_create(request):
     context = {
@@ -155,7 +157,7 @@ def accounts_create(request):
     errors = ""
     
     if request.method == "GET":
-        return render(request, "partials/register.html", context)
+        return render(request, "auth/register.html", context)
     
     if request.POST:
         username = request.POST["username"]
@@ -174,7 +176,7 @@ def accounts_create(request):
             return redirect("index", permanent=True)
         else:
             context['form']['errors'] = errors
-            return render(request, "partials/register.html", context)
+            return render(request, "auth/register.html", context)
     
     return HttpResponseNotFound()
     
@@ -203,7 +205,7 @@ def accounts_login(request):
         }
     }
     
-    return render(request, "partials/login.html", context)
+    return render(request, "auth/login.html", context)
 
 def accounts_logout(request):
     logout(request)

@@ -14,11 +14,12 @@
     <form hx-get="{% url 'events_search' %}"
           hx-trigger="change, input changed delay:1s from:#search"
           hx-target="#event_list"
-          hx-push-url="false"
+          hx-push-url="true"
           hx-swap="innerHTML"
           hx-indicator="#indicator"
           hx-disabled-elt="button, select, input:not(#search)"
-          hx-on::before-request="events = [];">
+          hx-on::before-request="events = [];"
+          >
       
       <!-- Поиск -->
       <label class="input input absolute z-1 m-4 top-0 w-auto">
@@ -88,38 +89,29 @@
     <details class="collapse bg-base-100 border-base-300 border">
       <summary class="collapse-title font-semibold px-4 py-2">Статистика</summary>
       <div class="collapse-content">
-        <div id="event_stats" class="flex gap-2 mx-2">
-          <div class="stats shadow">
-            <div class="stat p-2">
-              <div class="stat-title">Количество событий</div>
-              <div class="stat-value">{{ stats.events_count }}</div>
-            </div>
-          </div>
-            
-          <div class="stats shadow">
-            <div class="stat p-2">
-              <div class="stat-title">Популярные теги</div>
-              <div class="flex gap-1">
-                {% for popular_tag in stats.popular_tags %}
-                <div class="badge badge badge-primary badge-xl">
-                  <div>{{ popular_tag.name }}</div>
-                  <div class="stat-value text-2xl">{{ popular_tag.count }}</div>
-                </div>
-                {% endfor %}
-              </div>
-            </div>
-          </div>
-        </div>
+        {% include "events/events_stats.html" %}
       </div>
     </details>
   </div>
 
   <!-- Список событий -->
   <div id="event_list" class="flex flex-col gap-2 m-2 md:min-w-xs md:max-w-[50%]">
-      {% include "partials/next_page_load.html" %}
+    {% if form %}
+      {% for event in events %}
+      {% include "events/events_card.html" %}
+      {% empty %}
+      <div class="font-medium text-xl p-4 text-center">События не найдены</div>
+      {% endfor %}
+      
+      {% if form.has_next %}
+      {% include "events/events_next_page_load.html" %}
+      {% endif %}
+    {% else %}
+      {% include "events/events_next_page_load.html" %}
+    {% endif %}  
   </div>
 
-  {% include "partials/events_actions.html" %}
+  {% include "events/events_actions.html" %}
 
 </div>
 
