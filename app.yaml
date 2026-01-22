@@ -1,9 +1,10 @@
-DEBUG: true
+DEBUG: True
 ALLOWED_HOSTS:
   - '*'
 DATABASES.default.NAME: postgres
 DATABASES.default.USER: postgres
 DATABASES.default.PASSWORD: postgres
+# DATABASES.default.HOST:jsonenv: True
 DATABASES.default.HOST: localhost
 DATABASES.default.PORT: 5432
 LANGUAGE_CODE: ru

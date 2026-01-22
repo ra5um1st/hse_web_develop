@@ -14,6 +14,8 @@ from pathlib import Path
 import os
 import django_yamlconf
 from osgeo import gdal
+from glob import glob
+
 
 gdal.UseExceptions()
 
@@ -26,6 +28,9 @@ if os.name == 'nt':
     os.environ['PATH'] = os.path.join(VIRTUAL_ENV_BASE, r'.\Lib\site-packages\osgeo') + ';' + os.environ['PATH']
     os.environ['PROJ_LIB'] = os.path.join(VIRTUAL_ENV_BASE, r'.\Lib\site-packages\osgeo\data\proj') + ';' + os.environ['PATH']
     GDAL_LIBRARY_PATH = f'{BASE_DIR}/../.venv/Lib/site-packages/osgeo/gdal'
+else:
+    GDAL_LIBRARY_PATH=glob('/usr/lib/libgdal.so.*')[0]
+    GEOS_LIBRARY_PATH=glob('/usr/lib/libgeos_c.so.*')[0]
     
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-qz@rv)-wc+pg5o(4)2-+=hk=yqco-g7z@7!b+fy=-fzfqkxpcr'
@@ -44,11 +49,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "django_browser_reload",
+    # "django_browser_reload",
     'django.contrib.gis',
     'django_htmx',
-    'crispy_forms',
-    "crispy_tailwind",
+    "django_yamlconf",
     'events',
 ]
 
@@ -61,7 +65,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "django_htmx.middleware.HtmxMiddleware",
-    "django_browser_reload.middleware.BrowserReloadMiddleware",
+    # "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
 
 ROOT_URLCONF = 'app.urls'

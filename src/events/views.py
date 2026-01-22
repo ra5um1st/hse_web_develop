@@ -38,7 +38,6 @@ def get_events_page_context():
     }
     
     return context
-    
 
 def index(request):
     return render(request, "partials/index.html", get_events_page_context())
@@ -113,6 +112,7 @@ def events_search(request):
     
     return render(request, "events/search/events_search.html", context)
 
+@login_required
 def events_create(request):
     form = CreateEventForm()
     template = "events/create/post/events_create.html"
@@ -207,6 +207,7 @@ def accounts_login(request):
     
     return render(request, "auth/login.html", context)
 
+@login_required
 def accounts_logout(request):
     logout(request)
     

@@ -1,3 +1,7 @@
-volumes/
+.pgdata/
+dumpdata/
 venv/
+.venv/
 __pycache/
+index/
+.git/

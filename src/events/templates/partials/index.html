@@ -111,7 +111,9 @@
     {% endif %}  
   </div>
 
-  {% include "events/events_actions.html" %}
+  {% if user.is_authenticated %}
+    {% include "events/events_actions.html" %}
+  {% endif %}  
 
 </div>
 
