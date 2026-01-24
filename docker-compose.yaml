@@ -16,7 +16,7 @@ services:
       - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
       - "--certificatesresolvers.myresolver.acme.email=alex@share-events.ru"
       - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
-      - "--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web"
+      # - "--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web"
       # dashboard
       # - "--api.insecure=false"
       # - "--api.dashboard=true"
@@ -49,7 +49,7 @@ services:
         condition: service_healthy
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.app.rule=Host(`share-events.ru`)"
+      - "traefik.http.routers.app.rule=Host(`share-events.ru`) || PathPrefix(`/`)"
       - "traefik.http.routers.app.entrypoints=websecure"
       - "traefik.http.routers.app.tls.certresolver=myresolver"
   
