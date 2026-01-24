@@ -2,12 +2,16 @@ services:
   app:
     profiles:
       - app
-    build: .
+    image: ra5um1st/itmprototype-app
     ports:
       - 8080:8080
     environment:
       - YAMLCONF_DATABASES.default.HOST=postgres
       - YAMLCONF_DEBUG=False
+    restart: always
+    depends_on:
+      postgres:
+        condition: service_healthy
   
   postgres:
     profiles:
@@ -20,3 +24,8 @@ services:
       - 5432:5432
     environment:
       POSTGRES_PASSWORD: postgres
+    healthcheck:
+      test: ["CMD", "pg_isready"]
+      interval: 10s
+      timeout: 10s
+      retries: 5

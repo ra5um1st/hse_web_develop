@@ -32,4 +32,16 @@ COPY . /app/
 
 EXPOSE 8080
 
-CMD ["gunicorn", "--bind", "0.0.0.0:8080", "--chdir", "/app/src", "--workers", "2", "--threads", "4", "--access-logfile", "-", "--error-logfile", "-", "--log-level", "info", "app.wsgi:application"]
+CMD ["gunicorn", \ 
+    "--bind", "0.0.0.0:8080", \
+    "--chdir", "/app/src", \
+    "--max-requests", "1000", \
+    "--max-requests-jitter", "100", \
+    "--worker-class", "gthread", \
+    "--preload", \
+    "--workers", "1", \
+    "--threads", "2", \
+    "--access-logfile", "-", \
+    "--error-logfile", "-", \
+    "--log-level", "info", \
+    "app.wsgi:application"]
