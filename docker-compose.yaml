@@ -1,17 +1,57 @@
 services:
+  reverse-proxy:
+    profiles:
+      - app
+    image: traefik:3.6.7
+    command:
+      - "--providers.docker=true"
+      - "--providers.docker.exposedByDefault=false"
+      # HTTPS redirect
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--entryPoints.websecure.http.tls=true"
+      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+      # TLS
+      - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
+      - "--certificatesresolvers.myresolver.acme.email=alex@share-events.ru"
+      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+      - "--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web"
+      # dashboard
+      # - "--api.insecure=false"
+      # - "--api.dashboard=true"
+      # - "--entrypoints.dashboard.address=:8081"
+    ports:
+      - 80:80
+      - 443:443
+      - 8081:8081
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "letsencrypt:/letsencrypt"
+    restart: always
+
   app:
     profiles:
       - app
     image: ra5um1st/itmprototype-app
-    ports:
-      - 8080:8080
+    expose:
+      - 8080
     environment:
       - YAMLCONF_DATABASES.default.HOST=postgres
       - YAMLCONF_DEBUG=False
+    # lifecycle:
+    #   post_start:
+    #    - "python ./src/manage.py migrate"
+    #    - "python ./src/manage.py loaddata ./dumpdata/events.json ./dumpdata/tags.json ./dumpdata/event_tags.json"
     restart: always
     depends_on:
       postgres:
         condition: service_healthy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.app.rule=Host(`localhost`) || Host(`share-events.ru`)"
+      - "traefik.http.routers.app.entrypoints=websecure"
+      - "traefik.http.routers.app.tls.certresolver=myresolver"
   
   postgres:
     profiles:
@@ -20,8 +60,8 @@ services:
     image: postgis/postgis:18-3.6-alpine
     volumes:
       - ./.pgdata:/var/lib/postgresql/18/docker
-    ports:
-      - 5432:5432
+    expose:
+      - 5432
     environment:
       POSTGRES_PASSWORD: postgres
     healthcheck:
@@ -29,3 +69,6 @@ services:
       interval: 10s
       timeout: 10s
       retries: 5
+
+volumes:
+  letsencrypt:
