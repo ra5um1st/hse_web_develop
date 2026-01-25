@@ -4,11 +4,13 @@ services:
       - app
     image: traefik:3.6.7
     command:
+      - "--log.level=INFO"
       - "--providers.docker=true"
       - "--providers.docker.exposedByDefault=false"
       # HTTPS redirect
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
+      - "--entrypoints.dashboard.address=:8080"
       - "--entryPoints.websecure.http.tls=true"
       - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
       - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
@@ -16,15 +18,23 @@ services:
       - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
       - "--certificatesresolvers.myresolver.acme.email=alex@share-events.ru"
       - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
-      # - "--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web"
+      - "--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web"
       # dashboard
-      # - "--api.insecure=false"
-      # - "--api.dashboard=true"
-      # - "--entrypoints.dashboard.address=:8081"
+      - "--api.insecure=false"
+      - "--api.dashboard=true"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dashboard.rule=PathPrefix(`/`)"
+      - "traefik.http.routers.dashboard.service=api@internal"
+      - "traefik.http.middlewares.dashboard-auth.basicauth.users=admin:{SHA}h7o9iEMyOKLFUe45enldmU76HIs="
+      - "traefik.http.routers.dashboard.middlewares=dashboard-auth"
+      - "traefik.http.routers.dashboard.entrypoints=dashboard"
+      - "traefik.http.routers.dashboard.tls=true"
+      - "traefik.http.routers.dashboard.tls.certresolver=myresolver"
     ports:
       - 80:80
       - 443:443
-      - 8081:8081
+      - 8080:8080
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "letsencrypt:/letsencrypt"
@@ -49,7 +59,7 @@ services:
         condition: service_healthy
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.app.rule=Host(`share-events.ru`) || PathPrefix(`/`)"
+      - "traefik.http.routers.app.rule=Host(`share-events.ru`)"
       - "traefik.http.routers.app.entrypoints=websecure"
       - "traefik.http.routers.app.tls.certresolver=myresolver"
   
