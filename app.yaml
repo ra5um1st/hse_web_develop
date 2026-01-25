@@ -10,3 +10,6 @@ DATABASES.default.PORT: 5432
 LANGUAGE_CODE: ru
 TIME_ZONE: Europe/Moscow
 USE_TZ: true
+CSRF_TRUSTED_ORIGINS: 
+ - https://share-events.ru
+ - https://*.share-events.ru

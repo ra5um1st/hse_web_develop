@@ -1,10 +1,11 @@
+from django.forms import ValidationError
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect, HttpResponseNotFound
 from events.models import Event, Event_Tag, Tag
 from django.db.models import Prefetch, Q, Count
 from django.forms.models import model_to_dict
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import get_user_model, authenticate, login, logout
+from django.contrib.auth import get_user_model, authenticate, login, logout, password_validation
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
@@ -15,6 +16,7 @@ from datetime import datetime
 from dateutil import parser
 from events.forms.events import CreateEventForm
 import os
+from django.contrib.auth import password_validation
 
 # Create your views here.
 def get_events_page_context():
@@ -160,23 +162,32 @@ def accounts_create(request):
         return render(request, "auth/register.html", context)
     
     if request.POST:
-        username = request.POST["username"]
-        password = request.POST["password"]
-        password2 = request.POST["password2"]
-        
-        if User.objects.filter(username__iexact=username).exists():
-            errors += "Пользователь с таким username уже существует\n"
+        try:
+            username = request.POST["username"]
+            password = request.POST["password"]
+            password2 = request.POST["password2"]
             
-        if password != password2:
-            errors += "Пароли должны совпадать\n"
-        
-        if not errors:
-            user = User.objects.create_user(username, password=password)
-            login(request, user)
-            return redirect("index", permanent=True)
-        else:
-            context['form']['errors'] = errors
-            return render(request, "auth/register.html", context)
+            try:
+                password_validation.validate_password(password)
+            except ValidationError as ex:
+                errors += "\n ".join(ex.messages) + "\n"
+            
+            if User.objects.filter(username__iexact=username).exists():
+                errors += "Пользователь с таким username уже существует\n"
+                
+            if password != password2:
+                errors += "Пароли должны совпадать\n"
+            
+            if not errors:
+                user = User.objects.create_user(username, password=password)
+                login(request, user)
+                return redirect("index", permanent=True)
+        except Exception as ex:
+            errors += "Непредвиденная ошибка при регистрации пользователя\n"    
+    
+    if errors:
+        context['form']['errors'] = errors
+        return render(request, "auth/register.html", context)
     
     return HttpResponseNotFound()
     

@@ -24,7 +24,7 @@ services:
       - "--api.dashboard=true"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.dashboard.rule=PathPrefix(`/`)"
+      - "traefik.http.routers.dashboard.rule=PathPrefix(`traefik.share-events.ru`)"
       - "traefik.http.routers.dashboard.service=api@internal"
       - "traefik.http.middlewares.dashboard-auth.basicauth.users=admin:{SHA}h7o9iEMyOKLFUe45enldmU76HIs="
       - "traefik.http.routers.dashboard.middlewares=dashboard-auth"
