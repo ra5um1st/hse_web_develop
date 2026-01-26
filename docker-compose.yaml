@@ -24,7 +24,7 @@ services:
       - "--api.dashboard=true"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.dashboard.rule=PathPrefix(`traefik.share-events.ru`)"
+      - "traefik.http.routers.dashboard.rule=Host(`traefik.share-events.ru`) || Host(`traefik.localhost`)"
       - "traefik.http.routers.dashboard.service=api@internal"
       - "traefik.http.middlewares.dashboard-auth.basicauth.users=admin:{SHA}h7o9iEMyOKLFUe45enldmU76HIs="
       - "traefik.http.routers.dashboard.middlewares=dashboard-auth"
@@ -44,8 +44,6 @@ services:
     profiles:
       - app
     image: ra5um1st/itmprototype-app
-    expose:
-      - 8080
     environment:
       - YAMLCONF_DATABASES.default.HOST=postgres
       - YAMLCONF_DEBUG=False
@@ -59,7 +57,7 @@ services:
         condition: service_healthy
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.app.rule=Host(`share-events.ru`)"
+      - "traefik.http.routers.app.rule=Host(`share-events.ru`) || Host(`localhost`)"
       - "traefik.http.routers.app.entrypoints=websecure"
       - "traefik.http.routers.app.tls.certresolver=myresolver"
   
@@ -70,8 +68,8 @@ services:
     image: postgis/postgis:18-3.6-alpine
     volumes:
       - ./.pgdata:/var/lib/postgresql/18/docker
-    expose:
-      - 5432
+    ports:
+      - 5432:5432
     environment:
       POSTGRES_PASSWORD: postgres
     healthcheck:

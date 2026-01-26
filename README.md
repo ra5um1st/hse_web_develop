@@ -8,6 +8,11 @@
 docker compose --profile db up -d
 ```
 
+Приложение:
+```powershell
+docker compose --profile app up -d
+```
+
 ## Windows
 
 ```powershell
